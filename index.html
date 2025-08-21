@@ -1,564 +1,715 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>CloudFormation 30-Day Mastery (CloudFormationMastery)</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CloudFormation 30-Day Mastery (CloudFormationMastery)</title>
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0ea5e9" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f59e0b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-  <style>
-    :root{
-      --bg:#0b1220; --card:#131b2e; --muted:#9fb3c8; --accent:#0ea5e9; --border:#1f2a44; --text:#e6edf3;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
-    header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#0ea5e9,#0ea5e9 60%,rgba(11,18,32,.92) 100%);color:#fff;padding:14px 16px 12px;border-bottom:1px solid rgba(255,255,255,.15)}
-    header h1{margin:0 0 4px;font-size:1.2rem}
-    header p{margin:0;font-size:.95rem;opacity:.95}
-    .wrap{display:grid;gap:12px;padding:12px}
-    .top-actions{display:flex;gap:8px;flex-wrap:wrap}
-    .btn{appearance:none;border:1px solid var(--border);background:var(--card);color:var(--text);padding:8px 10px;border-radius:10px;font-weight:600;text-decoration:none;cursor:pointer}
-    .btn.primary{background:var(--accent);border-color:#0887c4;color:#00121a}
-    nav#days{position:sticky;top:60px;background:rgba(19,27,46,.6);backdrop-filter:blur(6px);border:1px solid var(--border);border-radius:12px;padding:8px;overflow-x:auto;white-space:nowrap}
-    nav#days a{color:var(--text);text-decoration:none;border:1px solid var(--border);border-radius:999px;padding:6px 10px;margin-right:6px;display:inline-block;font-size:.9rem}
-    nav#days a:hover{border-color:var(--accent)}
-    .section-title{margin:16px 4px 6px;color:var(--muted);font-weight:700;letter-spacing:.02em}
-    .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
-    .card h3{margin:0 0 6px;font-size:1.05rem}
-    .meta{color:var(--muted);font-size:.9rem;margin-bottom:8px}
-    details{border:1px dashed var(--border);border-radius:12px;padding:10px;background:rgba(255,255,255,.02)}
-    details>summary{cursor:pointer;font-weight:700}
-    ul{margin:8px 0 0 18px}
-    .links a{display:inline-block;margin:6px 6px 0 0;padding:6px 10px;border:1px solid var(--border);border-radius:999px;color:var(--text);text-decoration:none;font-size:.88rem;background:#0f182a}
-    .links a:hover{border-color:var(--accent)}
-    .kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0f182a;border:1px solid var(--border);padding:2px 6px;border-radius:6px}
-    .pill{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.78rem;color:#00121a;background:var(--accent);margin-left:6px}
-    footer{color:var(--muted);text-align:center;padding:24px 8px 56px}
-  </style>
+<style>
+:root{
+  --bg:#0b1220; --card:#121a2a; --muted:#9fb3c8; --accent:#f59e0b; --accent2:#f97316; --border:#1f2a44; --text:#e6edf3;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
+header{padding:22px 16px 18px;background:linear-gradient(180deg,var(--accent2) 0%, var(--accent) 80%);color:#2a1600;position:sticky;top:0;z-index:10}
+header h1{margin:0 0 6px;font-size:1.35rem}
+header p{margin:0;opacity:.95}
+.pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#fff7ed;color:#7c2d12;font-size:.8rem;margin-left:6px}
+
+.container{padding:12px;display:grid;gap:12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.center{text-align:center}
+
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.progress-ring{width:120px;height:120px;margin:auto;position:relative}
+.progress-ring svg{transform:rotate(-90deg)}
+.progress-ring .label{position:absolute;inset:0;display:grid;place-items:center;font-weight:800}
+small.badge{display:inline-block;margin-top:6px;padding:3px 8px;border:1px solid #3b2a14;border-radius:999px;background:#1b1a11;color:#ffdca8}
+
+.alerts{display:grid;gap:8px}
+.btn{appearance:none;border:1px solid var(--border);background:#0e1a2b;color:var(--text);padding:10px 12px;border-radius:12px;font-weight:700}
+.btn.primary{background:var(--accent);border-color:#b45309;color:#231504}
+.btn.ghost{background:#0e1a2b}
+
+#dayNav.card{display:flex;justify-content:center;gap:8px;align-items:center}
+#dayNav .jump{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+#dayNav .jump a{border:1px solid var(--border);border-radius:10px;padding:6px 10px;text-decoration:none;color:var(--text);background:#0e1e31}
+#dayNav .jump a:hover{border-color:var(--accent)}
+
+.day-card{display:none}
+.day-card.active{display:block}
+.day-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.day-head h2{margin:6px 0;font-size:1.08rem;text-align:center;flex:1}
+.nav{border:1px solid var(--border);background:#0e1e31;color:var(--text);padding:8px 10px;border-radius:10px}
+.tasks{margin:8px 0 0 0;padding-left:0;list-style:none;display:grid;gap:8px}
+.tasks input[type="checkbox"]{transform:scale(1.2);margin-right:8px}
+.links a{display:inline-block;margin:8px 8px 0 0;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#0d1d33;color:var(--text);text-decoration:none;font-size:.9rem}
+.complete{margin-top:12px;width:100%}
+
+.footer{color:var(--muted);text-align:center;padding:24px 8px 56px}
+.banner{padding:10px;border-radius:12px;background:#1b1409;border:1px solid #3b2a14}
+.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0e2036;border:1px solid var(--border);padding:2px 6px;border-radius:6px}
+</style>
 </head>
 <body>
-  <header>
-    <h1>🏗️ CloudFormation 30-Day Mastery <span class="pill">CloudFormationMastery</span></h1>
-    <p>Stacks • Parameters • Change Sets • Drift • Nested Stacks • StackSets • SAM</p>
-  </header>
+<header>
+  <h1>🏗️ CloudFormation 30-Day Mastery <span class="pill">CloudFormationMastery</span></h1>
+  <p>Stacks • Parameters • Change Sets • Drift • Nested Stacks • StackSets • SAM</p>
+</header>
 
-  <div class="wrap">
-    <div class="top-actions">
-      <button id="installBtn" class="btn primary" hidden>Add to Home Screen</button>
-      <a class="btn" href="#projects">Final Projects</a>
-      <a class="btn" href="#resources">Resources</a>
-      <a class="btn" href="#faq">FAQ</a>
+<main class="container">
+  <section class="stats">
+    <div class="card center">
+      <div class="progress-ring" aria-label="Progress">
+        <svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true">
+          <circle cx="60" cy="60" r="54" stroke="#3a2a12" stroke-width="12" fill="none"></circle>
+          <circle id="ring" cx="60" cy="60" r="54" stroke="#f59e0b" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292"></circle>
+        </svg>
+        <div class="label"><span id="progressPct">0%</span></div>
+      </div>
+      <small class="badge"><span id="completedDays">0</span>/30 days completed</small>
     </div>
 
-    <nav id="days" aria-label="Jump to day">
-      <span class="section-title">Jump to Day:</span>
-      <span id="dayLinks"></span>
-    </nav>
-
-    <section class="grid" id="curriculum">
-      <!-- Week 1: Core Template Building -->
-      <article class="card" id="day1">
-        <h3>Day 1 — CloudFormation Fundamentals</h3>
-        <div class="meta">What CFN is & how it works</div>
-        <details open><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Mental model: templates → stacks → events → resources.</li>
-            <li>Create hello-world template with a <span class="kbd">AWS::S3::Bucket</span>.</li>
-            <li>Deploy via console & CLI: <span class="kbd">create-stack</span>, <span class="kbd">describe-stacks</span>.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank">CFN: What Is</a>
-            <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/" target="_blank">CFN CLI</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day2">
-        <h3>Day 2 — Template Anatomy & YAML</h3>
-        <div class="meta">Sections & basic syntax</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Sections: <span class="kbd">AWSTemplateFormatVersion</span>, <span class="kbd">Description</span>, <span class="kbd">Parameters</span>, <span class="kbd">Resources</span>, <span class="kbd">Outputs</span>.</li>
-            <li>Convert JSON↔YAML; use comments & long strings.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html" target="_blank">Template Anatomy</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day3">
-        <h3>Day 3 — Parameters & Constraints</h3>
-        <div class="meta">Types, AllowedValues, NoEcho</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Add parameters (Strings, Numbers, Lists) with <span class="kbd">AllowedValues</span>, <span class="kbd">AllowedPattern</span>, <span class="kbd">NoEcho</span>.</li>
-            <li>Pass params via CLI and json files.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html" target="_blank">Parameters</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day4">
-        <h3>Day 4 — Mappings & Conditions</h3>
-        <div class="meta">Env/region switches</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create <span class="kbd">Mappings</span> for region/env defaults; use <span class="kbd">Fn::FindInMap</span>.</li>
-            <li>Use <span class="kbd">Conditions</span> with <span class="kbd">Fn::If</span> to toggle resources.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html" target="_blank">Mappings</a>
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html" target="_blank">Conditions</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day5">
-        <h3>Day 5 — Intrinsic Functions</h3>
-        <div class="meta">Ref, GetAtt, Sub, Join, Select, Split, If…</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Practice <span class="kbd">Ref</span>, <span class="kbd">GetAtt</span>, <span class="kbd">Fn::Sub</span>, <span class="kbd">Fn::Join</span>, <span class="kbd">Fn::Select</span>, <span class="kbd">Fn::Split</span>, <span class="kbd">Fn::Equals</span>.</li>
-            <li>Build names & ARNs dynamically with <span class="kbd">Sub</span>.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html" target="_blank">Intrinsic Functions</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day6">
-        <h3>Day 6 — Outputs & Cross-Stack Exports</h3>
-        <div class="meta">Sharing values</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create <span class="kbd">Outputs</span> with <span class="kbd">Export</span>.</li>
-            <li>Consume with <span class="kbd">Fn::ImportValue</span> from another stack.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html" target="_blank">Outputs</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day7">
-        <h3>Day 7 — Resource Lifecycles & DependsOn</h3>
-        <div class="meta">Replacements & ordering</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Learn when updates cause replacement.</li>
-            <li>Use <span class="kbd">DependsOn</span> & creation policies for order/health.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html" target="_blank">Resource Types</a>
-          </div>
-        </details>
-      </article>
-
-      <!-- Week 2: Networking & Compute -->
-      <article class="card" id="day8">
-        <h3>Day 8 — VPC Baseline</h3>
-        <div class="meta">VPC, Subnets, RTs, IGW, NAT</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create VPC with 2 AZs public/private subnets, route tables, IGW, NAT GW.</li>
-            <li>Outputs: subnet IDs, VPC ID.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html" target="_blank">VPC</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day9">
-        <h3>Day 9 — Security Groups & NACLs</h3>
-        <div class="meta">Network guardrails</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create SGs for ALB, EC2, RDS; restrict by SG and CIDR.</li>
-            <li>Optional: NACLs for public/private subnets.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html" target="_blank">Security Groups</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day10">
-        <h3>Day 10 — EC2 + IAM + UserData</h3>
-        <div class="meta">LaunchTemplate & bootstrap</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create Launch Template with IAM role & SSM Agent via <span class="kbd">UserData</span>.</li>
-            <li>Store AMI via parameter; output instance profile.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html" target="_blank">EC2 User Data</a>
-            <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html" target="_blank">SSM Agent</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day11">
-        <h3>Day 11 — ALB & Target Groups</h3>
-        <div class="meta">Listeners & health checks</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create ALB, TG, listener (HTTP 80) with health check path.</li>
-            <li>Wire SGs: internet → ALB → instances.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html" target="_blank">ALB</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day12">
-        <h3>Day 12 — Auto Scaling Group</h3>
-        <div class="meta">Capacity & rolling updates</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create ASG with the Launch Template; attach TG.</li>
-            <li>UpdatePolicy: rolling update; health checks.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html" target="_blank">ASG</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day13">
-        <h3>Day 13 — RDS (or Aurora) Subnet Group</h3>
-        <div class="meta">DB in private subnets</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create DB subnet group; RDS MySQL instance (or Aurora cluster).</li>
-            <li>Secrets via SSM/Secrets Manager (no plaintext).</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html" target="_blank">RDS</a>
-            <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html" target="_blank">Secrets Manager</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day14">
-        <h3>Day 14 — S3 Buckets & Policies</h3>
-        <div class="meta">Versioning, encryption, static site</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create S3 with versioning, SSE, least-priv policy.</li>
-            <li>Optional: static website hosting (locked with OAC if using CloudFront).</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html" target="_blank">S3</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day15">
-        <h3>Day 15 — CloudFront & Route 53</h3>
-        <div class="meta">CDN & DNS</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>CF distribution with S3 origin + Origin Access Control (OAC).</li>
-            <li>Alias record in Route 53; cache behaviors.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html" target="_blank">CloudFront</a>
-            <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html" target="_blank">Route 53</a>
-          </div>
-        </details>
-      </article>
-
-      <!-- Week 3: Serverless, Containers, Events -->
-      <article class="card" id="day16">
-        <h3>Day 16 — IAM Roles & Policies</h3>
-        <div class="meta">Least privilege & conditions</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create roles for EC2/Lambda with managed + inline policies.</li>
-            <li>Use condition keys, principals, and boundaries when appropriate.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html" target="_blank">IAM Policies</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day17">
-        <h3>Day 17 — CloudWatch Logs & Alarms</h3>
-        <div class="meta">Observability</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create LogGroups for app & system; retention policy.</li>
-            <li>Alarms on CPU/5XX; notify with SNS topic.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html" target="_blank">CloudWatch</a>
-            <a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html" target="_blank">SNS</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day18">
-        <h3>Day 18 — Lambda + API Gateway</h3>
-        <div class="meta">Serverless stack</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create Lambda function, IAM role, LogGroup, and API Gateway integration.</li>
-            <li>Outputs: API URL; alias for canary (optional).</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank">Lambda</a>
-            <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank">API Gateway</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day19">
-        <h3>Day 19 — EventBridge, SQS, DLQ</h3>
-        <div class="meta">Event-driven patterns</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create rule → target Lambda; add SQS queue with DLQ for retries.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html" target="_blank">EventBridge</a>
-            <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html" target="_blank">SQS</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day20">
-        <h3>Day 20 — Secrets & Parameters</h3>
-        <div class="meta">Dynamic refs</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Use <span class="kbd">{{resolve:secretsmanager:…}}</span> and SSM Parameter Store in templates.</li>
-            <li>Rotate secrets policy.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html" target="_blank">Dynamic Refs</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day21">
-        <h3>Day 21 — ECS Fargate Service</h3>
-        <div class="meta">Cluster, TaskDef, Service, ALB</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create ECR repo; ECS cluster; task definition; service behind ALB.</li>
-            <li>Auto scaling & health checks.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html" target="_blank">ECS</a>
-            <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html" target="_blank">ECR</a>
-          </div>
-        </details>
-      </article>
-
-      <!-- Week 4: Advanced CFN, Safety, Testing -->
-      <article class="card" id="day22">
-        <h3>Day 22 — ECR Policies & Lifecycle</h3>
-        <div class="meta">Retention & scanning</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Add lifecycle policy; enable scan on push; restrict repo access.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/ecr-repository-policies.html" target="_blank">ECR Policies</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day23">
-        <h3>Day 23 — Nested Stacks & StackSets</h3>
-        <div class="meta">Composition & multi-account</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Break infra into nested stacks (vpc.yml, app.yml).</li>
-            <li>Try StackSets to deploy across accounts/regions.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html" target="_blank">Nested Stacks</a>
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html" target="_blank">StackSets</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day24">
-        <h3>Day 24 — Change Sets & Policies</h3>
-        <div class="meta">Safer updates</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create/preview Change Sets; add <span class="kbd">StackPolicy</span>; use <span class="kbd">DeletionPolicy</span>/<span class="kbd">UpdateReplacePolicy</span>.</li>
-            <li>Rollback triggers with CloudWatch alarms.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html" target="_blank">Change Sets</a>
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources-from-updates.html" target="_blank">Stack Policies</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day25">
-        <h3>Day 25 — Linting & Testing (cfn-lint, taskcat, Guard)</h3>
-        <div class="meta">Quality gates</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Run <span class="kbd">cfn-lint</span> locally & in CI.</li>
-            <li>Use <span class="kbd">taskcat</span> to test deploy.</li>
-            <li>Add <span class="kbd">cfn-guard</span> rules for security/tagging.</li>
-          </ul>
-          <div class="links">
-            <a href="https://github.com/aws-cloudformation/cfn-lint" target="_blank">cfn-lint</a>
-            <a href="https://github.com/aws-quickstart/taskcat" target="_blank">taskcat</a>
-            <a href="https://github.com/aws-cloudformation/cloudformation-guard" target="_blank">CloudFormation Guard</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day26">
-        <h3>Day 26 — Drift & Resource Import</h3>
-        <div class="meta">Detect/resolve drift; import</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Run drift detection; fix differences.</li>
-            <li>Import existing resources into a stack (no recreate).</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/detect-drift-stack.html" target="_blank">Drift Detection</a>
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html" target="_blank">Resource Import</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day27">
-        <h3>Day 27 — SAM (Serverless)</h3>
-        <div class="meta">Transforms & packaging</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Use <span class="kbd">Transform: AWS::Serverless-2016-10-31</span> with a Lambda + API.</li>
-            <li><span class="kbd">sam build</span> & <span class="kbd">sam package</span> to S3; deploy.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html" target="_blank">AWS SAM</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day28">
-        <h3>Day 28 — Macros, Hooks & Custom Resources</h3>
-        <div class="meta">Extend CFN</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Create a simple custom resource (Lambda) to perform setup work.</li>
-            <li>Review Hooks/Macros for organization-wide rules.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html" target="_blank">Macros</a>
-            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/hooks-reference.html" target="_blank">Hooks</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day29">
-        <h3>Day 29 — Cost, Security, Tagging, Reuse</h3>
-        <div class="meta">Best practices</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Standardize tags; use mappings/params for reuse & cost controls.</li>
-            <li>Add termination protection; review permissions boundaries.</li>
-          </ul>
-          <div class="links">
-            <a href="https://docs.aws.amazon.com/whitepapers/latest/cf-best-practices/welcome.html" target="_blank">CFN Best Practices</a>
-          </div>
-        </details>
-      </article>
-
-      <article class="card" id="day30">
-        <h3>Day 30 — Final Project</h3>
-        <div class="meta">Prod-ready stack</div>
-        <details><summary>Objectives & Tasks</summary>
-          <ul>
-            <li>Build multi-env stack (VPC + ALB + ASG/ECS + RDS/DynamoDB) with params & change sets.</li>
-            <li>Enable drift detection, alarms, and guarded updates.</li>
-            <li>Optional: integrate a CI stage to validate/lint (see CICDMastery Day 23).</li>
-          </ul>
-        </details>
-      </article>
-    </section>
-
-    <!-- Final Projects -->
-    <section class="card" id="projects">
-      <h3>Final Projects (Pick 1–3)</h3>
-      <ul>
-        <li><b>VPC + ALB + ASG App Stack:</b> full web tier with params for dev/stage/prod.</li>
-        <li><b>Serverless API:</b> Lambda + API Gateway + DynamoDB (SAM transform).</li>
-        <li><b>ECS Fargate Service:</b> ECR image, service behind ALB, auto scaling, logs/alarms.</li>
-      </ul>
-    </section>
-
-    <!-- Resources -->
-    <section class="card" id="resources">
-      <h3>Resources</h3>
-      <div class="links">
-        <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank">CloudFormation Docs</a>
-        <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html" target="_blank">Template Anatomy</a>
-        <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html" target="_blank">Intrinsic Functions</a>
-        <a href="https://github.com/aws-cloudformation/cfn-lint" target="_blank">cfn-lint</a>
-        <a href="https://github.com/aws-quickstart/taskcat" target="_blank">taskcat</a>
-        <a href="https://github.com/aws-cloudformation/cloudformation-guard" target="_blank">CFN Guard</a>
-        <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/detect-drift-stack.html" target="_blank">Drift</a>
-        <a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html" target="_blank">AWS SAM</a>
+    <div class="card">
+      <div class="banner"><b>Daily notifications</b>: <span id="notifStatus">off</span></div>
+      <div class="alerts">
+        <button class="btn primary" id="enableAlerts">Enable Alerts</button>
+        <button class="btn ghost" id="resetBtn">Reset</button>
       </div>
-    </section>
+      <small class="badge">Streak: <span id="streak">0</span> days</small>
+    </div>
+  </section>
 
-    <!-- FAQ -->
-    <section class="card" id="faq">
-      <h3>FAQ</h3>
-      <p><b>Does it work offline?</b> Yes—first visit caches all content for offline reading.</p>
-      <p><b>How do I install?</b> Tap <i>Add to Home Screen</i> when prompted, or use the button above.</p>
-    </section>
+  <section id="dayNav" class="card">
+    <div>Current Day: <b><span id="currentDay">1</span></b></div>
+    <div class="jump" id="jump"></div>
+  </section>
 
-    <footer>© CloudFormationMastery – 30-Day Mastery Series</footer>
-  </div>
+  <!-- Day cards 1–30 -->
+  <!-- Week 1 -->
+  <section class="card day-card" id="day-1" role="region" aria-labelledby="title-1">
+    <div class="day-head">
+      <button class="nav prev" data-go="0" disabled>← Prev</button>
+      <h2 id="title-1">Day 1 — CloudFormation Fundamentals</h2>
+      <button class="nav next" data-go="2">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="1" data-task="0"> Mental model: templates → stacks → events → resources.</label></li>
+      <li><label><input type="checkbox" data-day="1" data-task="1"> Create hello-world template with <span class="kbd">AWS::S3::Bucket</span>.</label></li>
+      <li><label><input type="checkbox" data-day="1" data-task="2"> Deploy via console & CLI: <span class="kbd">create-stack</span>, <span class="kbd">describe-stacks</span>.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank" rel="noopener">CFN: What Is</a>
+      <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/" target="_blank" rel="noopener">CFN CLI</a>
+    </div>
+    <button class="complete" data-complete="1">Mark Day 1 Complete</button>
+  </section>
 
-  <script>
-    // Day jump links
-    const dayLinks = document.getElementById('dayLinks');
-    dayLinks.innerHTML = Array.from({length:30},(_,i)=>`<a href="#day${i+1}">Day ${i+1}</a>`).join('');
+  <section class="card day-card" id="day-2">
+    <div class="day-head">
+      <button class="nav prev" data-go="1">← Prev</button>
+      <h2 id="title-2">Day 2 — Template Anatomy & YAML</h2>
+      <button class="nav next" data-go="3">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="2" data-task="0"> Sections: <span class="kbd">AWSTemplateFormatVersion</span>, <span class="kbd">Description</span>, <span class="kbd">Parameters</span>, <span class="kbd">Resources</span>, <span class="kbd">Outputs</span>.</label></li>
+      <li><label><input type="checkbox" data-day="2" data-task="1"> Convert JSON↔YAML; use comments & long strings.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html" target="_blank" rel="noopener">Template Anatomy</a>
+    </div>
+    <button class="complete" data-complete="2">Mark Day 2 Complete</button>
+  </section>
 
-    // PWA: service worker + install prompt
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').catch(console.error);
+  <section class="card day-card" id="day-3">
+    <div class="day-head">
+      <button class="nav prev" data-go="2">← Prev</button>
+      <h2 id="title-3">Day 3 — Parameters & Constraints</h2>
+      <button class="nav next" data-go="4">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="3" data-task="0"> Add parameters (Strings, Numbers, Lists) with <span class="kbd">AllowedValues</span>, <span class="kbd">AllowedPattern</span>, <span class="kbd">NoEcho</span>.</label></li>
+      <li><label><input type="checkbox" data-day="3" data-task="1"> Pass params via CLI and json files.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html" target="_blank" rel="noopener">Parameters</a>
+    </div>
+    <button class="complete" data-complete="3">Mark Day 3 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-4">
+    <div class="day-head">
+      <button class="nav prev" data-go="3">← Prev</button>
+      <h2 id="title-4">Day 4 — Mappings & Conditions</h2>
+      <button class="nav next" data-go="5">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="4" data-task="0"> Create <span class="kbd">Mappings</span> and use <span class="kbd">Fn::FindInMap</span>.</label></li>
+      <li><label><input type="checkbox" data-day="4" data-task="1"> Use <span class="kbd">Conditions</span> with <span class="kbd">Fn::If</span> to toggle resources.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html" target="_blank" rel="noopener">Mappings</a>
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html" target="_blank" rel="noopener">Conditions</a>
+    </div>
+    <button class="complete" data-complete="4">Mark Day 4 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-5">
+    <div class="day-head">
+      <button class="nav prev" data-go="4">← Prev</button>
+      <h2 id="title-5">Day 5 — Intrinsic Functions</h2>
+      <button class="nav next" data-go="6">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="5" data-task="0"> Practice <span class="kbd">Ref</span>, <span class="kbd">GetAtt</span>, <span class="kbd">Sub</span>, <span class="kbd">Join</span>, <span class="kbd">Select</span>, <span class="kbd">Split</span>.</label></li>
+      <li><label><input type="checkbox" data-day="5" data-task="1"> Build names & ARNs dynamically with <span class="kbd">Fn::Sub</span>.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html" target="_blank" rel="noopener">Intrinsic Functions</a>
+    </div>
+    <button class="complete" data-complete="5">Mark Day 5 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-6">
+    <div class="day-head">
+      <button class="nav prev" data-go="5">← Prev</button>
+      <h2 id="title-6">Day 6 — Outputs & Cross-Stack Exports</h2>
+      <button class="nav next" data-go="7">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="6" data-task="0"> Create <span class="kbd">Outputs</span> with <span class="kbd">Export</span>.</label></li>
+      <li><label><input type="checkbox" data-day="6" data-task="1"> Consume with <span class="kbd">Fn::ImportValue</span> from another stack.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html" target="_blank" rel="noopener">Outputs</a>
+    </div>
+    <button class="complete" data-complete="6">Mark Day 6 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-7">
+    <div class="day-head">
+      <button class="nav prev" data-go="6">← Prev</button>
+      <h2 id="title-7">Day 7 — Resource Lifecycles & DependsOn</h2>
+      <button class="nav next" data-go="8">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="7" data-task="0"> Learn when updates cause replacement; use <span class="kbd">DependsOn</span>.</label></li>
+      <li><label><input type="checkbox" data-day="7" data-task="1"> Use creation/update policies for order/health.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html" target="_blank" rel="noopener">Resource Types</a>
+    </div>
+    <button class="complete" data-complete="7">Mark Day 7 Complete</button>
+  </section>
+
+  <!-- Week 2 -->
+  <section class="card day-card" id="day-8">
+    <div class="day-head">
+      <button class="nav prev" data-go="7">← Prev</button>
+      <h2 id="title-8">Day 8 — VPC Baseline</h2>
+      <button class="nav next" data-go="9">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="8" data-task="0"> VPC with 2 AZs public/private subnets, RTs, IGW, NAT GW.</label></li>
+      <li><label><input type="checkbox" data-day="8" data-task="1"> Outputs: subnet IDs, VPC ID.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html" target="_blank" rel="noopener">VPC</a>
+    </div>
+    <button class="complete" data-complete="8">Mark Day 8 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-9">
+    <div class="day-head">
+      <button class="nav prev" data-go="8">← Prev</button>
+      <h2 id="title-9">Day 9 — Security Groups & NACLs</h2>
+      <button class="nav next" data-go="10">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="9" data-task="0"> Create SGs for ALB, EC2, RDS; restrict by SG and CIDR.</label></li>
+      <li><label><input type="checkbox" data-day="9" data-task="1"> Optional: NACLs for public/private subnets.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html" target="_blank" rel="noopener">Security Groups</a>
+    </div>
+    <button class="complete" data-complete="9">Mark Day 9 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-10">
+    <div class="day-head">
+      <button class="nav prev" data-go="9">← Prev</button>
+      <h2 id="title-10">Day 10 — EC2 + IAM + UserData</h2>
+      <button class="nav next" data-go="11">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="10" data-task="0"> Launch Template with IAM role & SSM Agent via <span class="kbd">UserData</span>.</label></li>
+      <li><label><input type="checkbox" data-day="10" data-task="1"> Store AMI via parameter; output instance profile.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html" target="_blank" rel="noopener">EC2 User Data</a>
+      <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html" target="_blank" rel="noopener">SSM Agent</a>
+    </div>
+    <button class="complete" data-complete="10">Mark Day 10 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-11">
+    <div class="day-head">
+      <button class="nav prev" data-go="10">← Prev</button>
+      <h2 id="title-11">Day 11 — ALB & Target Groups</h2>
+      <button class="nav next" data-go="12">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="11" data-task="0"> ALB, TG, listener (HTTP 80) with health check path.</label></li>
+      <li><label><input type="checkbox" data-day="11" data-task="1"> Wire SGs: internet → ALB → instances.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html" target="_blank" rel="noopener">ALB</a>
+    </div>
+    <button class="complete" data-complete="11">Mark Day 11 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-12">
+    <div class="day-head">
+      <button class="nav prev" data-go="11">← Prev</button>
+      <h2 id="title-12">Day 12 — Auto Scaling Group</h2>
+      <button class="nav next" data-go="13">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="12" data-task="0"> ASG with Launch Template; attach TG; rolling updates.</label></li>
+      <li><label><input type="checkbox" data-day="12" data-task="1"> Health checks; instance warm-up.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html" target="_blank" rel="noopener">ASG</a>
+    </div>
+    <button class="complete" data-complete="12">Mark Day 12 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-13">
+    <div class="day-head">
+      <button class="nav prev" data-go="12">← Prev</button>
+      <h2 id="title-13">Day 13 — RDS (or Aurora) Subnet Group</h2>
+      <button class="nav next" data-go="14">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="13" data-task="0"> DB subnet group; RDS MySQL (or Aurora) instance/cluster.</label></li>
+      <li><label><input type="checkbox" data-day="13" data-task="1"> Secrets via SSM/Secrets Manager (no plaintext).</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html" target="_blank" rel="noopener">RDS</a>
+      <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html" target="_blank" rel="noopener">Secrets Manager</a>
+    </div>
+    <button class="complete" data-complete="13">Mark Day 13 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-14">
+    <div class="day-head">
+      <button class="nav prev" data-go="13">← Prev</button>
+      <h2 id="title-14">Day 14 — S3 Buckets & Policies</h2>
+      <button class="nav next" data-go="15">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="14" data-task="0"> S3 with versioning, SSE, least-priv policy.</label></li>
+      <li><label><input type="checkbox" data-day="14" data-task="1"> Optional: static site hosting (with CloudFront OAC).</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html" target="_blank" rel="noopener">S3</a>
+    </div>
+    <button class="complete" data-complete="14">Mark Day 14 Complete</button>
+  </section>
+
+  <!-- Week 3 -->
+  <section class="card day-card" id="day-15">
+    <div class="day-head">
+      <button class="nav prev" data-go="14">← Prev</button>
+      <h2 id="title-15">Day 15 — CloudFront & Route 53</h2>
+      <button class="nav next" data-go="16">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="15" data-task="0"> CF distribution (S3 origin + OAC); behaviors.</label></li>
+      <li><label><input type="checkbox" data-day="15" data-task="1"> Alias record in Route 53.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html" target="_blank" rel="noopener">CloudFront</a>
+      <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html" target="_blank" rel="noopener">Route 53</a>
+    </div>
+    <button class="complete" data-complete="15">Mark Day 15 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-16">
+    <div class="day-head">
+      <button class="nav prev" data-go="15">← Prev</button>
+      <h2 id="title-16">Day 16 — IAM Roles & Policies</h2>
+      <button class="nav next" data-go="17">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="16" data-task="0"> Roles for EC2/Lambda with managed + inline policies.</label></li>
+      <li><label><input type="checkbox" data-day="16" data-task="1"> Use condition keys, principals, and boundaries.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html" target="_blank" rel="noopener">IAM Policies</a>
+    </div>
+    <button class="complete" data-complete="16">Mark Day 16 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-17">
+    <div class="day-head">
+      <button class="nav prev" data-go="16">← Prev</button>
+      <h2 id="title-17">Day 17 — CloudWatch Logs & Alarms</h2>
+      <button class="nav next" data-go="18">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="17" data-task="0"> LogGroups for app & system; retention policy.</label></li>
+      <li><label><input type="checkbox" data-day="17" data-task="1"> Alarms on CPU/5XX; notify via SNS topic.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html" target="_blank" rel="noopener">CloudWatch</a>
+      <a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html" target="_blank" rel="noopener">SNS</a>
+    </div>
+    <button class="complete" data-complete="17">Mark Day 17 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-18">
+    <div class="day-head">
+      <button class="nav prev" data-go="17">← Prev</button>
+      <h2 id="title-18">Day 18 — Lambda + API Gateway</h2>
+      <button class="nav next" data-go="19">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="18" data-task="0"> Lambda function, IAM role, LogGroup, API Gateway integration.</label></li>
+      <li><label><input type="checkbox" data-day="18" data-task="1"> Outputs: API URL; alias for canary (optional).</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank" rel="noopener">Lambda</a>
+      <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank" rel="noopener">API Gateway</a>
+    </div>
+    <button class="complete" data-complete="18">Mark Day 18 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-19">
+    <div class="day-head">
+      <button class="nav prev" data-go="18">← Prev</button>
+      <h2 id="title-19">Day 19 — EventBridge, SQS, DLQ</h2>
+      <button class="nav next" data-go="20">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="19" data-task="0"> Rule → target Lambda; SQS queue with DLQ for retries.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html" target="_blank" rel="noopener">EventBridge</a>
+      <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html" target="_blank" rel="noopener">SQS</a>
+    </div>
+    <button class="complete" data-complete="19">Mark Day 19 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-20">
+    <div class="day-head">
+      <button class="nav prev" data-go="19">← Prev</button>
+      <h2 id="title-20">Day 20 — Secrets & Parameters (Dynamic Refs)</h2>
+      <button class="nav next" data-go="21">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="20" data-task="0"> Use <span class="kbd">{{resolve:secretsmanager:…}}</span> and SSM Parameter Store.</label></li>
+      <li><label><input type="checkbox" data-day="20" data-task="1"> Rotate secrets policy.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html" target="_blank" rel="noopener">Dynamic Refs</a>
+    </div>
+    <button class="complete" data-complete="20">Mark Day 20 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-21">
+    <div class="day-head">
+      <button class="nav prev" data-go="20">← Prev</button>
+      <h2 id="title-21">Day 21 — ECS Fargate Service</h2>
+      <button class="nav next" data-go="22">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="21" data-task="0"> ECR repo; ECS cluster; task definition; service behind ALB.</label></li>
+      <li><label><input type="checkbox" data-day="21" data-task="1"> Auto scaling & health checks.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html" target="_blank" rel="noopener">ECS</a>
+      <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html" target="_blank" rel="noopener">ECR</a>
+    </div>
+    <button class="complete" data-complete="21">Mark Day 21 Complete</button>
+  </section>
+
+  <!-- Week 4 -->
+  <section class="card day-card" id="day-22">
+    <div class="day-head">
+      <button class="nav prev" data-go="21">← Prev</button>
+      <h2 id="title-22">Day 22 — ECR Policies & Lifecycle</h2>
+      <button class="nav next" data-go="23">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="22" data-task="0"> Lifecycle policy; scan on push; restrict repo access.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/ecr-repository-policies.html" target="_blank" rel="noopener">ECR Policies</a>
+    </div>
+    <button class="complete" data-complete="22">Mark Day 22 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-23">
+    <div class="day-head">
+      <button class="nav prev" data-go="22">← Prev</button>
+      <h2 id="title-23">Day 23 — Nested Stacks & StackSets</h2>
+      <button class="nav next" data-go="24">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="23" data-task="0"> Break infra into nested stacks (vpc.yml, app.yml).</label></li>
+      <li><label><input type="checkbox" data-day="23" data-task="1"> Try StackSets to deploy across accounts/regions.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html" target="_blank" rel="noopener">Nested Stacks</a>
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html" target="_blank" rel="noopener">StackSets</a>
+    </div>
+    <button class="complete" data-complete="23">Mark Day 23 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-24">
+    <div class="day-head">
+      <button class="nav prev" data-go="23">← Prev</button>
+      <h2 id="title-24">Day 24 — Change Sets & Policies</h2>
+      <button class="nav next" data-go="25">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="24" data-task="0"> Create/preview Change Sets; add <span class="kbd">StackPolicy</span>.</label></li>
+      <li><label><input type="checkbox" data-day="24" data-task="1"> Use <span class="kbd">DeletionPolicy</span>/<span class="kbd">UpdateReplacePolicy</span>; rollback triggers.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html" target="_blank" rel="noopener">Change Sets</a>
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources-from-updates.html" target="_blank" rel="noopener">Stack Policies</a>
+    </div>
+    <button class="complete" data-complete="24">Mark Day 24 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-25">
+    <div class="day-head">
+      <button class="nav prev" data-go="24">← Prev</button>
+      <h2 id="title-25">Day 25 — Linting & Testing (cfn-lint, taskcat, Guard)</h2>
+      <button class="nav next" data-go="26">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="25" data-task="0"> Run <span class="kbd">cfn-lint</span> locally & in CI.</label></li>
+      <li><label><input type="checkbox" data-day="25" data-task="1"> Use <span class="kbd">taskcat</span> to test deploy; add <span class="kbd">cfn-guard</span> rules.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://github.com/aws-cloudformation/cfn-lint" target="_blank" rel="noopener">cfn-lint</a>
+      <a href="https://github.com/aws-quickstart/taskcat" target="_blank" rel="noopener">taskcat</a>
+      <a href="https://github.com/aws-cloudformation/cloudformation-guard" target="_blank" rel="noopener">CFN Guard</a>
+    </div>
+    <button class="complete" data-complete="25">Mark Day 25 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-26">
+    <div class="day-head">
+      <button class="nav prev" data-go="25">← Prev</button>
+      <h2 id="title-26">Day 26 — Drift & Resource Import</h2>
+      <button class="nav next" data-go="27">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="26" data-task="0"> Run drift detection; fix differences.</label></li>
+      <li><label><input type="checkbox" data-day="26" data-task="1"> Import existing resources into a stack (no recreate).</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/detect-drift-stack.html" target="_blank" rel="noopener">Drift Detection</a>
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html" target="_blank" rel="noopener">Resource Import</a>
+    </div>
+    <button class="complete" data-complete="26">Mark Day 26 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-27">
+    <div class="day-head">
+      <button class="nav prev" data-go="26">← Prev</button>
+      <h2 id="title-27">Day 27 — SAM (Serverless)</h2>
+      <button class="nav next" data-go="28">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="27" data-task="0"> Use <span class="kbd">Transform: AWS::Serverless-2016-10-31</span> with a Lambda + API.</label></li>
+      <li><label><input type="checkbox" data-day="27" data-task="1"><span class="kbd">sam build</span> & <span class="kbd">sam package</span> to S3; deploy.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html" target="_blank" rel="noopener">AWS SAM</a>
+    </div>
+    <button class="complete" data-complete="27">Mark Day 27 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-28">
+    <div class="day-head">
+      <button class="nav prev" data-go="27">← Prev</button>
+      <h2 id="title-28">Day 28 — Macros, Hooks & Custom Resources</h2>
+      <button class="nav next" data-go="29">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="28" data-task="0"> Create a simple custom resource (Lambda) for setup work.</label></li>
+      <li><label><input type="checkbox" data-day="28" data-task="1"> Review Hooks/Macros for org-wide rules.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html" target="_blank" rel="noopener">Macros</a>
+      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/hooks-reference.html" target="_blank" rel="noopener">Hooks</a>
+    </div>
+    <button class="complete" data-complete="28">Mark Day 28 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-29">
+    <div class="day-head">
+      <button class="nav prev" data-go="28">← Prev</button>
+      <h2 id="title-29">Day 29 — Cost, Security, Tagging, Reuse</h2>
+      <button class="nav next" data-go="30">Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="29" data-task="0"> Standardize tags; reuse via mappings/params; cost controls.</label></li>
+      <li><label><input type="checkbox" data-day="29" data-task="1"> Termination protection; permissions boundaries review.</label></li>
+    </ul>
+    <div class="links">
+      <a href="https://docs.aws.amazon.com/whitepapers/latest/cf-best-practices/welcome.html" target="_blank" rel="noopener">CFN Best Practices</a>
+    </div>
+    <button class="complete" data-complete="29">Mark Day 29 Complete</button>
+  </section>
+
+  <section class="card day-card" id="day-30">
+    <div class="day-head">
+      <button class="nav prev" data-go="29">← Prev</button>
+      <h2 id="title-30">Day 30 — Final Project</h2>
+      <button class="nav next" data-go="31" disabled>Next →</button>
+    </div>
+    <ul class="tasks">
+      <li><label><input type="checkbox" data-day="30" data-task="0"> Multi-env (VPC + ALB + ASG/ECS + RDS/DynamoDB) with params & change sets.</label></li>
+      <li><label><input type="checkbox" data-day="30" data-task="1"> Enable drift detection, alarms, guarded updates.</label></li>
+      <li><label><input type="checkbox" data-day="30" data-task="2"> Optional: integrate CI validation (see CICDMastery Day 23).</label></li>
+    </ul>
+    <button class="complete" data-complete="30">Mark Day 30 Complete</button>
+  </section>
+
+  <section class="footer">© CloudFormationMastery — Install for best experience (Add to Home Screen). Works offline.</section>
+</main>
+
+<script>
+const TOTAL = 30;
+const stateKey = 'cfn_state_v1';
+let state = JSON.parse(localStorage.getItem(stateKey) || '{"completed":{}, "tasks":{}, "streak":0, "lastOpen":null, "notif":false, "current":1}');
+
+// Jump links
+const jump = document.getElementById('jump');
+jump.innerHTML = Array.from({length: TOTAL}, (_, i) => `<a href="#day-${i+1}" data-go="${i+1}">Day ${i+1}</a>`).join('');
+jump.querySelectorAll('a').forEach(a => a.addEventListener('click', (e) => {
+  e.preventDefault();
+  const go = parseInt(a.dataset.go, 10);
+  showDay(go);
+  document.getElementById(`day-${go}`).scrollIntoView({behavior:'smooth', block:'start'});
+}));
+
+// Progress ring
+function updateProgress() {
+  const completedCount = Object.keys(state.completed).length;
+  const pct = Math.round((completedCount / TOTAL) * 100);
+  document.getElementById('completedDays').textContent = completedCount;
+  document.getElementById('progressPct').textContent = pct + '%';
+  const C = 2 * Math.PI * 54;
+  const off = C * (1 - pct/100);
+  const ring = document.getElementById('ring');
+  ring.setAttribute('stroke-dasharray', C.toFixed(3));
+  ring.setAttribute('stroke-dashoffset', off.toFixed(3));
+}
+
+// Show day
+function showDay(n) {
+  n = Math.min(Math.max(1, n), TOTAL);
+  document.querySelectorAll('.day-card').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('day-' + n);
+  if (el) el.classList.add('active');
+  state.current = n;
+  document.getElementById('currentDay').textContent = n;
+  save();
+}
+
+// Save
+function save() {
+  localStorage.setItem(stateKey, JSON.stringify(state));
+}
+
+// Streak
+function updateStreak() {
+  const today = new Date().toISOString().slice(0,10);
+  if (state.lastOpen !== today) {
+    const yest = new Date(); yest.setDate(yest.getDate()-1);
+    const yestStr = yest.toISOString().slice(0,10);
+    if (state.lastOpen === yestStr) state.streak += 1;
+    else state.streak = 1;
+    state.lastOpen = today;
+    save();
+  }
+  document.getElementById('streak').textContent = state.streak || 0;
+}
+
+// Task checkboxes persist
+document.querySelectorAll('.tasks input[type="checkbox"]').forEach(cb => {
+  const d = cb.dataset.day; const t = cb.dataset.task;
+  const checked = state.tasks[d]?.includes(parseInt(t));
+  cb.checked = !!checked;
+  cb.addEventListener('change', () => {
+    state.tasks[d] = state.tasks[d] || [];
+    const idx = state.tasks[d].indexOf(parseInt(t));
+    if (cb.checked) { if (idx === -1) state.tasks[d].push(parseInt(t)); }
+    else { if (idx !== -1) state.tasks[d].splice(idx,1); }
+    save();
+  });
+});
+
+// Complete buttons
+document.querySelectorAll('.complete').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const d = btn.dataset.complete;
+    state.completed[d] = true;
+    save();
+    updateProgress();
+    if (parseInt(d) < TOTAL) showDay(parseInt(d)+1);
+  });
+});
+
+// Prev/Next nav
+document.querySelectorAll('.nav').forEach(b => b.addEventListener('click', () => {
+  const go = parseInt(b.dataset.go);
+  if (!isNaN(go)) showDay(go);
+}));
+
+// Notifications (basic)
+const notifStatus = document.getElementById('notifStatus');
+function updateNotifUI(){ notifStatus.textContent = state.notif ? 'on' : 'off'; }
+updateNotifUI();
+document.getElementById('enableAlerts').addEventListener('click', async () => {
+  if (!('Notification' in window)) return alert('Notifications not supported.');
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') {
+    state.notif = true; save(); updateNotifUI();
+    if (navigator.serviceWorker) {
+      const reg = await navigator.serviceWorker.getRegistration();
+      reg?.showNotification('CloudFormationMastery: Daily reminder set!', { body: "Come back for today's CFN challenge." });
     }
-    let deferredPrompt;
-    const installBtn = document.getElementById('installBtn');
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault(); deferredPrompt = e; installBtn.hidden = false;
-    });
-    installBtn?.addEventListener('click', async () => {
-      installBtn.hidden = true;
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-      }
-    });
-  </script>
+  }
+});
+
+// Reset
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (!confirm('Reset progress and streak?')) return;
+  state = {"completed":{}, "tasks":{}, "streak":0, "lastOpen":null, "notif":false, "current":1};
+  localStorage.setItem(stateKey, JSON.stringify(state));
+  document.querySelectorAll('.tasks input[type="checkbox"]').forEach(cb => cb.checked = false);
+  updateProgress(); updateNotifUI(); updateStreak(); showDay(1);
+});
+
+// PWA SW
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(console.error);
+
+// Init
+updateProgress(); updateStreak(); showDay(state.current || 1);
+</script>
 </body>
-          </html>
+</html>
