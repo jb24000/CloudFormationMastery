@@ -11,705 +11,697 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <style>
+/* ===== THEME (orange/amber) ===== */
 :root{
-  --bg:#0b1220; --card:#121a2a; --muted:#9fb3c8; --accent:#f59e0b; --accent2:#f97316; --border:#1f2a44; --text:#e6edf3;
+  --bg1:#fb923c; --bg2:#f59e0b; --bg3:#0b1220;
+  --text:#f8fafc; --muted:#cbd5e1;
+  --ring-track:rgba(255,255,255,.18); --ring:#ffedd5;
+  --box:rgba(255,255,255,.08); --box-strong:rgba(255,255,255,.14);
+  --chip:#1b1409; --chip-border:#7c2d12;
+  --okbg:rgba(245,158,11,.25);
+  --btn:#f59e0b; --btn-text:#2b1700; --btn-ghost:#0e1a2b;
+  --shadow:0 20px 50px rgba(0,0,0,.35);
+  --border:rgba(255,255,255,.12);
 }
 *{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--bg);color:var(--text)}
-header{padding:22px 16px 18px;background:linear-gradient(180deg,var(--accent2) 0%, var(--accent) 80%);color:#2a1600;position:sticky;top:0;z-index:10}
-header h1{margin:0 0 6px;font-size:1.35rem}
-header p{margin:0;opacity:.95}
-.pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#fff7ed;color:#7c2d12;font-size:.8rem;margin-left:6px}
+body{
+  margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;color:var(--text);
+  background:
+    radial-gradient(1200px 400px at 20% -10%, var(--bg1), transparent 60%),
+    radial-gradient(1000px 500px at 110% 0%, var(--bg2), transparent 50%),
+    linear-gradient(#0b1224, var(--bg3));
+  background-attachment:fixed;
+}
 
-.container{padding:12px;display:grid;gap:12px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+/* header */
+.header{position:sticky;top:0;z-index:10;padding:22px 18px 14px;
+  backdrop-filter:saturate(140%) blur(6px);
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0));}
+.h1{display:flex;gap:10px;align-items:center}
+.h1 h1{margin:0;font-size:1.7rem}
+.sub{margin:6px 2px 0;color:var(--muted);font-weight:500}
+
+/* container */
+.wrap{padding:12px;display:grid;gap:12px;max-width:980px;margin:0 auto}
+
+/* generic box */
+.box{background:var(--box);border:1px solid var(--border);border-radius:20px;padding:14px;box-shadow:var(--shadow)}
+.row2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .center{text-align:center}
 
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.progress-ring{width:120px;height:120px;margin:auto;position:relative}
-.progress-ring svg{transform:rotate(-90deg)}
-.progress-ring .label{position:absolute;inset:0;display:grid;place-items:center;font-weight:800}
-small.badge{display:inline-block;margin-top:6px;padding:3px 8px;border:1px solid #3b2a14;border-radius:999px;background:#1b1a11;color:#ffdca8}
+/* 1) TOP CIRCLE */
+.circle{display:grid;place-items:center}
+.ring{width:128px;height:128px;position:relative}
+.ring svg{transform:rotate(-90deg)}
+.pct{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:1.15rem;color:#fff7ed}
 
-.alerts{display:grid;gap:8px}
-.btn{appearance:none;border:1px solid var(--border);background:#0e1a2b;color:var(--text);padding:10px 12px;border-radius:12px;font-weight:700}
-.btn.primary{background:var(--accent);border-color:#b45309;color:#231504}
-.btn.ghost{background:#0e1a2b}
+/* 2) TWO STAT BOXES */
+.stat h3{margin:2px 0 0;font-size:2rem}
+.stat p{margin:0;color:var(--muted);font-weight:600}
 
-#dayNav.card{display:flex;justify-content:center;gap:8px;align-items:center}
-#dayNav .jump{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-#dayNav .jump a{border:1px solid var(--border);border-radius:10px;padding:6px 10px;text-decoration:none;color:var(--text);background:#0e1e31}
-#dayNav .jump a:hover{border-color:var(--accent)}
+/* 3) ONE NOTIFICATION BOX */
+.notice{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.notice.ok{background:var(--okbg);border-color:rgba(245,158,11,.45)}
+.notice b{letter-spacing:.2px}
+.check{display:none}
+.ok .check{display:inline}
 
+/* 4) TWO ACTION BOXES (buttons) */
+.btn{appearance:none;border:0;border-radius:16px;padding:16px 14px;width:100%;
+  font-weight:900;letter-spacing:.2px}
+.primary{background:var(--btn);color:var(--btn-text)}
+.ghost{background:var(--btn-ghost);color:var(--text)}
+
+/* 5) ONE LARGE DAY BOX */
+.dayhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.dayhead h2{margin:6px 0 0;font-size:1.15rem}
+.nav{border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);padding:8px 12px;border-radius:12px}
+.tasks{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+.tasks label{display:flex;align-items:center;gap:10px;background:var(--box-strong);padding:10px 12px;border-radius:14px;border:1px solid var(--border)}
+.tasks input[type="checkbox"]{appearance:none;width:20px;height:20px;border-radius:50%;border:2px solid #fed7aa}
+.tasks input[type="checkbox"]:checked{background:#f59e0b}
+.links{margin-top:6px}
+.chip{display:inline-block;margin:8px 8px 0 0;padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid var(--chip-border);text-decoration:none;color:#ffedd5;font-weight:600}
+.time{display:block;color:#fed7aa;font-style:italic;opacity:.9;margin-top:2px}
+.done{margin-top:12px;width:100%;background:linear-gradient(90deg,#f59e0b,#f97316);color:#2b1700;border:0;border-radius:14px;padding:12px 14px;font-weight:900;letter-spacing:.3px}
+
+/* jump chips */
+.jump{display:flex;flex-wrap:wrap;gap:8px}
+.jump a{color:var(--text);text-decoration:none;border:1px solid var(--border);padding:6px 10px;border-radius:10px;background:rgba(255,255,255,.06)}
+
+/* day sections */
 .day-card{display:none}
 .day-card.active{display:block}
-.day-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.day-head h2{margin:6px 0;font-size:1.08rem;text-align:center;flex:1}
-.nav{border:1px solid var(--border);background:#0e1e31;color:var(--text);padding:8px 10px;border-radius:10px}
-.tasks{margin:8px 0 0 0;padding-left:0;list-style:none;display:grid;gap:8px}
-.tasks input[type="checkbox"]{transform:scale(1.2);margin-right:8px}
-.links a{display:inline-block;margin:8px 8px 0 0;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:#0d1d33;color:var(--text);text-decoration:none;font-size:.9rem}
-.complete{margin-top:12px;width:100%}
 
-.footer{color:var(--muted);text-align:center;padding:24px 8px 56px}
-.banner{padding:10px;border-radius:12px;background:#1b1409;border:1px solid #3b2a14}
-.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#0e2036;border:1px solid var(--border);padding:2px 6px;border-radius:6px}
+/* footer */
+.footer{color:var(--muted);text-align:center;padding:28px 8px 56px}
 </style>
 </head>
 <body>
-<header>
-  <h1>🏗️ CloudFormation 30-Day Mastery <span class="pill">CloudFormationMastery</span></h1>
-  <p>Stacks • Parameters • Change Sets • Drift • Nested Stacks • StackSets • SAM</p>
-</header>
+  <div class="header">
+    <div class="h1"><div style="font-size:1.6rem">🏗️</div><h1>CloudFormation 30-Day Mastery</h1></div>
+    <div class="sub">Stacks • Parameters • Intrinsics • Change Sets • Drift • Nested Stacks • StackSets • SAM</div>
+  </div>
 
-<main class="container">
-  <section class="stats">
-    <div class="card center">
-      <div class="progress-ring" aria-label="Progress">
-        <svg viewBox="0 0 120 120" width="120" height="120" aria-hidden="true">
-          <circle cx="60" cy="60" r="54" stroke="#3a2a12" stroke-width="12" fill="none"></circle>
-          <circle id="ring" cx="60" cy="60" r="54" stroke="#f59e0b" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292"></circle>
+  <main class="wrap">
+    <!-- 1) TOP CIRCLE -->
+    <section class="box circle" aria-label="Progress">
+      <div class="ring">
+        <svg viewBox="0 0 120 120" width="128" height="128" aria-hidden="true">
+          <circle cx="60" cy="60" r="52" stroke="var(--ring-track)" stroke-width="12" fill="none"></circle>
+          <circle id="ring" cx="60" cy="60" r="52" stroke="var(--ring)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="326.725" stroke-dashoffset="326.725"></circle>
         </svg>
-        <div class="label"><span id="progressPct">0%</span></div>
+        <div class="pct" id="pct">0%</div>
       </div>
-      <small class="badge"><span id="completedDays">0</span>/30 days completed</small>
-    </div>
+    </section>
 
-    <div class="card">
-      <div class="banner"><b>Daily notifications</b>: <span id="notifStatus">off</span></div>
-      <div class="alerts">
-        <button class="btn primary" id="enableAlerts">Enable Alerts</button>
-        <button class="btn ghost" id="resetBtn">Reset</button>
+    <!-- 2) TWO STAT BOXES -->
+    <section class="row2">
+      <div class="box stat center"><h3 id="streak">0</h3><p>Day Streak</p></div>
+      <div class="box stat center"><h3 id="doneCount">0</h3><p>Days Completed</p></div>
+    </section>
+
+    <!-- 3) ONE NOTIFICATION BOX -->
+    <section id="notice" class="box notice">
+      <b id="noticeText">Daily notifications disabled</b>
+      <span class="check">✅</span>
+    </section>
+
+    <!-- 4) TWO ACTION BOXES -->
+    <section class="row2">
+      <button class="box btn primary" id="enableAlerts">Enable Alerts</button>
+      <button class="box btn ghost" id="resetBtn">Reset</button>
+    </section>
+
+    <!-- Optional quick jump -->
+    <section class="box"><div class="jump" id="jump"></div></section>
+
+    <!-- 5) ONE LARGE DAY BOX (host for day sections) -->
+    <section class="box">
+      <div class="dayhead">
+        <button class="nav prev" data-go="0" id="prev">← Prev</button>
+        <h2 id="currentTitle">Day 1: CloudFormation Fundamentals</h2>
+        <button class="nav next" data-go="2" id="next">Next →</button>
       </div>
-      <small class="badge">Streak: <span id="streak">0</span> days</small>
-    </div>
-  </section>
 
-  <section id="dayNav" class="card">
-    <div>Current Day: <b><span id="currentDay">1</span></b></div>
-    <div class="jump" id="jump"></div>
-  </section>
+      <!-- ==== DAY 1 ==== -->
+      <section class="day-card active" id="day-1" role="region" aria-labelledby="title-1">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="1" data-task="0"> Mental model: templates → stacks → events → resources.</label></li>
+          <li><label><input type="checkbox" data-day="1" data-task="1"> Create hello-world template with <code>AWS::S3::Bucket</code>.</label></li>
+          <li><label><input type="checkbox" data-day="1" data-task="2"> Deploy via console & CLI: <code>create-stack</code>, <code>describe-stacks</code>.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank" rel="noopener">CFN: What Is</a>
+          <a class="chip" href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/" target="_blank" rel="noopener">CFN CLI</a>
+        </div>
+        <em class="time">Morning (30min)</em>
+        <button class="done" data-complete="1">Mark Day 1 Complete</button>
+      </section>
 
-  <!-- Day cards 1–30 -->
-  <!-- Week 1 -->
-  <section class="card day-card" id="day-1" role="region" aria-labelledby="title-1">
-    <div class="day-head">
-      <button class="nav prev" data-go="0" disabled>← Prev</button>
-      <h2 id="title-1">Day 1 — CloudFormation Fundamentals</h2>
-      <button class="nav next" data-go="2">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="1" data-task="0"> Mental model: templates → stacks → events → resources.</label></li>
-      <li><label><input type="checkbox" data-day="1" data-task="1"> Create hello-world template with <span class="kbd">AWS::S3::Bucket</span>.</label></li>
-      <li><label><input type="checkbox" data-day="1" data-task="2"> Deploy via console & CLI: <span class="kbd">create-stack</span>, <span class="kbd">describe-stacks</span>.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html" target="_blank" rel="noopener">CFN: What Is</a>
-      <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/" target="_blank" rel="noopener">CFN CLI</a>
-    </div>
-    <button class="complete" data-complete="1">Mark Day 1 Complete</button>
-  </section>
+      <!-- ==== DAY 2 ==== -->
+      <section class="day-card" id="day-2">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="2" data-task="0"> Sections: <code>AWSTemplateFormatVersion</code>, <code>Description</code>, <code>Parameters</code>, <code>Resources</code>, <code>Outputs</code>.</label></li>
+          <li><label><input type="checkbox" data-day="2" data-task="1"> Convert JSON↔YAML; use comments & long strings.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html" target="_blank" rel="noopener">Template Anatomy</a>
+        </div>
+        <em class="time">Morning (30min)</em>
+        <button class="done" data-complete="2">Mark Day 2 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-2">
-    <div class="day-head">
-      <button class="nav prev" data-go="1">← Prev</button>
-      <h2 id="title-2">Day 2 — Template Anatomy & YAML</h2>
-      <button class="nav next" data-go="3">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="2" data-task="0"> Sections: <span class="kbd">AWSTemplateFormatVersion</span>, <span class="kbd">Description</span>, <span class="kbd">Parameters</span>, <span class="kbd">Resources</span>, <span class="kbd">Outputs</span>.</label></li>
-      <li><label><input type="checkbox" data-day="2" data-task="1"> Convert JSON↔YAML; use comments & long strings.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html" target="_blank" rel="noopener">Template Anatomy</a>
-    </div>
-    <button class="complete" data-complete="2">Mark Day 2 Complete</button>
-  </section>
+      <!-- ==== DAY 3 ==== -->
+      <section class="day-card" id="day-3">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="3" data-task="0"> Add parameters (Strings, Numbers, Lists) with <code>AllowedValues</code>, <code>AllowedPattern</code>, <code>NoEcho</code>.</label></li>
+          <li><label><input type="checkbox" data-day="3" data-task="1"> Pass params via CLI and json files.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html" target="_blank" rel="noopener">Parameters</a>
+        </div>
+        <em class="time">Afternoon (30min)</em>
+        <button class="done" data-complete="3">Mark Day 3 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-3">
-    <div class="day-head">
-      <button class="nav prev" data-go="2">← Prev</button>
-      <h2 id="title-3">Day 3 — Parameters & Constraints</h2>
-      <button class="nav next" data-go="4">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="3" data-task="0"> Add parameters (Strings, Numbers, Lists) with <span class="kbd">AllowedValues</span>, <span class="kbd">AllowedPattern</span>, <span class="kbd">NoEcho</span>.</label></li>
-      <li><label><input type="checkbox" data-day="3" data-task="1"> Pass params via CLI and json files.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html" target="_blank" rel="noopener">Parameters</a>
-    </div>
-    <button class="complete" data-complete="3">Mark Day 3 Complete</button>
-  </section>
+      <!-- ==== DAY 4 ==== -->
+      <section class="day-card" id="day-4">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="4" data-task="0"> Create <code>Mappings</code> and use <code>Fn::FindInMap</code>.</label></li>
+          <li><label><input type="checkbox" data-day="4" data-task="1"> Use <code>Conditions</code> with <code>Fn::If</code> to toggle resources.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html" target="_blank" rel="noopener">Mappings</a>
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html" target="_blank" rel="noopener">Conditions</a>
+        </div>
+        <em class="time">Morning (30min)</em>
+        <button class="done" data-complete="4">Mark Day 4 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-4">
-    <div class="day-head">
-      <button class="nav prev" data-go="3">← Prev</button>
-      <h2 id="title-4">Day 4 — Mappings & Conditions</h2>
-      <button class="nav next" data-go="5">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="4" data-task="0"> Create <span class="kbd">Mappings</span> and use <span class="kbd">Fn::FindInMap</span>.</label></li>
-      <li><label><input type="checkbox" data-day="4" data-task="1"> Use <span class="kbd">Conditions</span> with <span class="kbd">Fn::If</span> to toggle resources.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/mappings-section-structure.html" target="_blank" rel="noopener">Mappings</a>
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/conditions-section-structure.html" target="_blank" rel="noopener">Conditions</a>
-    </div>
-    <button class="complete" data-complete="4">Mark Day 4 Complete</button>
-  </section>
+      <!-- ==== DAY 5 ==== -->
+      <section class="day-card" id="day-5">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="5" data-task="0"> Practice <code>Ref</code>, <code>GetAtt</code>, <code>Sub</code>, <code>Join</code>, <code>Select</code>, <code>Split</code>.</label></li>
+          <li><label><input type="checkbox" data-day="5" data-task="1"> Build names & ARNs dynamically with <code>Fn::Sub</code>.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html" target="_blank" rel="noopener">Intrinsic Functions</a>
+        </div>
+        <em class="time">Afternoon (30min)</em>
+        <button class="done" data-complete="5">Mark Day 5 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-5">
-    <div class="day-head">
-      <button class="nav prev" data-go="4">← Prev</button>
-      <h2 id="title-5">Day 5 — Intrinsic Functions</h2>
-      <button class="nav next" data-go="6">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="5" data-task="0"> Practice <span class="kbd">Ref</span>, <span class="kbd">GetAtt</span>, <span class="kbd">Sub</span>, <span class="kbd">Join</span>, <span class="kbd">Select</span>, <span class="kbd">Split</span>.</label></li>
-      <li><label><input type="checkbox" data-day="5" data-task="1"> Build names & ARNs dynamically with <span class="kbd">Fn::Sub</span>.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html" target="_blank" rel="noopener">Intrinsic Functions</a>
-    </div>
-    <button class="complete" data-complete="5">Mark Day 5 Complete</button>
-  </section>
+      <!-- ==== DAY 6 ==== -->
+      <section class="day-card" id="day-6">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="6" data-task="0"> Create <code>Outputs</code> with <code>Export</code>.</label></li>
+          <li><label><input type="checkbox" data-day="6" data-task="1"> Consume with <code>Fn::ImportValue</code> from another stack.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html" target="_blank" rel="noopener">Outputs</a>
+        </div>
+        <em class="time">Morning (30min)</em>
+        <button class="done" data-complete="6">Mark Day 6 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-6">
-    <div class="day-head">
-      <button class="nav prev" data-go="5">← Prev</button>
-      <h2 id="title-6">Day 6 — Outputs & Cross-Stack Exports</h2>
-      <button class="nav next" data-go="7">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="6" data-task="0"> Create <span class="kbd">Outputs</span> with <span class="kbd">Export</span>.</label></li>
-      <li><label><input type="checkbox" data-day="6" data-task="1"> Consume with <span class="kbd">Fn::ImportValue</span> from another stack.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html" target="_blank" rel="noopener">Outputs</a>
-    </div>
-    <button class="complete" data-complete="6">Mark Day 6 Complete</button>
-  </section>
+      <!-- ==== DAY 7 ==== -->
+      <section class="day-card" id="day-7">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="7" data-task="0"> Learn when updates cause replacement; use <code>DependsOn</code>.</label></li>
+          <li><label><input type="checkbox" data-day="7" data-task="1"> Use creation/update policies for order/health.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html" target="_blank" rel="noopener">Resource Types</a>
+        </div>
+        <em class="time">Afternoon (30min)</em>
+        <button class="done" data-complete="7">Mark Day 7 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-7">
-    <div class="day-head">
-      <button class="nav prev" data-go="6">← Prev</button>
-      <h2 id="title-7">Day 7 — Resource Lifecycles & DependsOn</h2>
-      <button class="nav next" data-go="8">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="7" data-task="0"> Learn when updates cause replacement; use <span class="kbd">DependsOn</span>.</label></li>
-      <li><label><input type="checkbox" data-day="7" data-task="1"> Use creation/update policies for order/health.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html" target="_blank" rel="noopener">Resource Types</a>
-    </div>
-    <button class="complete" data-complete="7">Mark Day 7 Complete</button>
-  </section>
+      <!-- ==== DAY 8 ==== -->
+      <section class="day-card" id="day-8">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="8" data-task="0"> VPC with 2 AZs public/private subnets, RTs, IGW, NAT GW.</label></li>
+          <li><label><input type="checkbox" data-day="8" data-task="1"> Outputs: subnet IDs, VPC ID.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html" target="_blank" rel="noopener">VPC</a>
+        </div>
+        <em class="time">Morning (40min)</em>
+        <button class="done" data-complete="8">Mark Day 8 Complete</button>
+      </section>
 
-  <!-- Week 2 -->
-  <section class="card day-card" id="day-8">
-    <div class="day-head">
-      <button class="nav prev" data-go="7">← Prev</button>
-      <h2 id="title-8">Day 8 — VPC Baseline</h2>
-      <button class="nav next" data-go="9">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="8" data-task="0"> VPC with 2 AZs public/private subnets, RTs, IGW, NAT GW.</label></li>
-      <li><label><input type="checkbox" data-day="8" data-task="1"> Outputs: subnet IDs, VPC ID.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html" target="_blank" rel="noopener">VPC</a>
-    </div>
-    <button class="complete" data-complete="8">Mark Day 8 Complete</button>
-  </section>
+      <!-- ==== DAY 9 ==== -->
+      <section class="day-card" id="day-9">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="9" data-task="0"> Create SGs for ALB, EC2, RDS; restrict by SG and CIDR.</label></li>
+          <li><label><input type="checkbox" data-day="9" data-task="1"> Optional: NACLs for public/private subnets.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html" target="_blank" rel="noopener">Security Groups</a>
+        </div>
+        <em class="time">Afternoon (30min)</em>
+        <button class="done" data-complete="9">Mark Day 9 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-9">
-    <div class="day-head">
-      <button class="nav prev" data-go="8">← Prev</button>
-      <h2 id="title-9">Day 9 — Security Groups & NACLs</h2>
-      <button class="nav next" data-go="10">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="9" data-task="0"> Create SGs for ALB, EC2, RDS; restrict by SG and CIDR.</label></li>
-      <li><label><input type="checkbox" data-day="9" data-task="1"> Optional: NACLs for public/private subnets.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html" target="_blank" rel="noopener">Security Groups</a>
-    </div>
-    <button class="complete" data-complete="9">Mark Day 9 Complete</button>
-  </section>
+      <!-- ==== DAY 10 ==== -->
+      <section class="day-card" id="day-10">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="10" data-task="0"> Launch Template with IAM role & SSM Agent via <code>UserData</code>.</label></li>
+          <li><label><input type="checkbox" data-day="10" data-task="1"> Store AMI via parameter; output instance profile.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html" target="_blank" rel="noopener">EC2 User Data</a>
+          <a class="chip" href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html" target="_blank" rel="noopener">SSM Agent</a>
+        </div>
+        <em class="time">Morning (40min)</em>
+        <button class="done" data-complete="10">Mark Day 10 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-10">
-    <div class="day-head">
-      <button class="nav prev" data-go="9">← Prev</button>
-      <h2 id="title-10">Day 10 — EC2 + IAM + UserData</h2>
-      <button class="nav next" data-go="11">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="10" data-task="0"> Launch Template with IAM role & SSM Agent via <span class="kbd">UserData</span>.</label></li>
-      <li><label><input type="checkbox" data-day="10" data-task="1"> Store AMI via parameter; output instance profile.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html" target="_blank" rel="noopener">EC2 User Data</a>
-      <a href="https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent.html" target="_blank" rel="noopener">SSM Agent</a>
-    </div>
-    <button class="complete" data-complete="10">Mark Day 10 Complete</button>
-  </section>
+      <!-- ==== DAY 11 ==== -->
+      <section class="day-card" id="day-11">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="11" data-task="0"> ALB, TG, listener (HTTP 80) with health check path.</label></li>
+          <li><label><input type="checkbox" data-day="11" data-task="1"> Wire SGs: internet → ALB → instances.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html" target="_blank" rel="noopener">ALB</a>
+        </div>
+        <em class="time">Afternoon (35min)</em>
+        <button class="done" data-complete="11">Mark Day 11 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-11">
-    <div class="day-head">
-      <button class="nav prev" data-go="10">← Prev</button>
-      <h2 id="title-11">Day 11 — ALB & Target Groups</h2>
-      <button class="nav next" data-go="12">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="11" data-task="0"> ALB, TG, listener (HTTP 80) with health check path.</label></li>
-      <li><label><input type="checkbox" data-day="11" data-task="1"> Wire SGs: internet → ALB → instances.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html" target="_blank" rel="noopener">ALB</a>
-    </div>
-    <button class="complete" data-complete="11">Mark Day 11 Complete</button>
-  </section>
+      <!-- ==== DAY 12 ==== -->
+      <section class="day-card" id="day-12">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="12" data-task="0"> ASG with Launch Template; attach TG; rolling updates.</label></li>
+          <li><label><input type="checkbox" data-day="12" data-task="1"> Health checks; instance warm-up.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html" target="_blank" rel="noopener">ASG</a>
+        </div>
+        <em class="time">Morning (35min)</em>
+        <button class="done" data-complete="12">Mark Day 12 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-12">
-    <div class="day-head">
-      <button class="nav prev" data-go="11">← Prev</button>
-      <h2 id="title-12">Day 12 — Auto Scaling Group</h2>
-      <button class="nav next" data-go="13">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="12" data-task="0"> ASG with Launch Template; attach TG; rolling updates.</label></li>
-      <li><label><input type="checkbox" data-day="12" data-task="1"> Health checks; instance warm-up.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-groups.html" target="_blank" rel="noopener">ASG</a>
-    </div>
-    <button class="complete" data-complete="12">Mark Day 12 Complete</button>
-  </section>
+      <!-- ==== DAY 13 ==== -->
+      <section class="day-card" id="day-13">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="13" data-task="0"> DB subnet group; RDS MySQL (or Aurora) instance/cluster.</label></li>
+          <li><label><input type="checkbox" data-day="13" data-task="1"> Secrets via SSM/Secrets Manager (no plaintext).</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html" target="_blank" rel="noopener">RDS</a>
+          <a class="chip" href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html" target="_blank" rel="noopener">Secrets Manager</a>
+        </div>
+        <em class="time">Afternoon (40min)</em>
+        <button class="done" data-complete="13">Mark Day 13 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-13">
-    <div class="day-head">
-      <button class="nav prev" data-go="12">← Prev</button>
-      <h2 id="title-13">Day 13 — RDS (or Aurora) Subnet Group</h2>
-      <button class="nav next" data-go="14">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="13" data-task="0"> DB subnet group; RDS MySQL (or Aurora) instance/cluster.</label></li>
-      <li><label><input type="checkbox" data-day="13" data-task="1"> Secrets via SSM/Secrets Manager (no plaintext).</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html" target="_blank" rel="noopener">RDS</a>
-      <a href="https://docs.aws.amazon.com/secretsmanager/latest/userguide/intro.html" target="_blank" rel="noopener">Secrets Manager</a>
-    </div>
-    <button class="complete" data-complete="13">Mark Day 13 Complete</button>
-  </section>
+      <!-- ==== DAY 14 ==== -->
+      <section class="day-card" id="day-14">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="14" data-task="0"> S3 with versioning, SSE, least-priv policy.</label></li>
+          <li><label><input type="checkbox" data-day="14" data-task="1"> Optional: static site hosting (with CloudFront OAC).</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html" target="_blank" rel="noopener">S3</a>
+        </div>
+        <em class="time">Morning (30min)</em>
+        <button class="done" data-complete="14">Mark Day 14 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-14">
-    <div class="day-head">
-      <button class="nav prev" data-go="13">← Prev</button>
-      <h2 id="title-14">Day 14 — S3 Buckets & Policies</h2>
-      <button class="nav next" data-go="15">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="14" data-task="0"> S3 with versioning, SSE, least-priv policy.</label></li>
-      <li><label><input type="checkbox" data-day="14" data-task="1"> Optional: static site hosting (with CloudFront OAC).</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html" target="_blank" rel="noopener">S3</a>
-    </div>
-    <button class="complete" data-complete="14">Mark Day 14 Complete</button>
-  </section>
+      <!-- ==== DAY 15 ==== -->
+      <section class="day-card" id="day-15">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="15" data-task="0"> CF distribution (S3 origin + OAC); behaviors.</label></li>
+          <li><label><input type="checkbox" data-day="15" data-task="1"> Alias record in Route 53.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html" target="_blank" rel="noopener">CloudFront</a>
+          <a class="chip" href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html" target="_blank" rel="noopener">Route 53</a>
+        </div>
+        <em class="time">Afternoon (30min)</em>
+        <button class="done" data-complete="15">Mark Day 15 Complete</button>
+      </section>
 
-  <!-- Week 3 -->
-  <section class="card day-card" id="day-15">
-    <div class="day-head">
-      <button class="nav prev" data-go="14">← Prev</button>
-      <h2 id="title-15">Day 15 — CloudFront & Route 53</h2>
-      <button class="nav next" data-go="16">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="15" data-task="0"> CF distribution (S3 origin + OAC); behaviors.</label></li>
-      <li><label><input type="checkbox" data-day="15" data-task="1"> Alias record in Route 53.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html" target="_blank" rel="noopener">CloudFront</a>
-      <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html" target="_blank" rel="noopener">Route 53</a>
-    </div>
-    <button class="complete" data-complete="15">Mark Day 15 Complete</button>
-  </section>
+      <!-- ==== DAY 16 ==== -->
+      <section class="day-card" id="day-16">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="16" data-task="0"> Roles for EC2/Lambda with managed + inline policies.</label></li>
+          <li><label><input type="checkbox" data-day="16" data-task="1"> Use condition keys, principals, and boundaries.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html" target="_blank" rel="noopener">IAM Policies</a>
+        </div>
+        <em class="time">Morning (30min)</em>
+        <button class="done" data-complete="16">Mark Day 16 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-16">
-    <div class="day-head">
-      <button class="nav prev" data-go="15">← Prev</button>
-      <h2 id="title-16">Day 16 — IAM Roles & Policies</h2>
-      <button class="nav next" data-go="17">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="16" data-task="0"> Roles for EC2/Lambda with managed + inline policies.</label></li>
-      <li><label><input type="checkbox" data-day="16" data-task="1"> Use condition keys, principals, and boundaries.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html" target="_blank" rel="noopener">IAM Policies</a>
-    </div>
-    <button class="complete" data-complete="16">Mark Day 16 Complete</button>
-  </section>
+      <!-- ==== DAY 17 ==== -->
+      <section class="day-card" id="day-17">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="17" data-task="0"> LogGroups for app & system; retention policy.</label></li>
+          <li><label><input type="checkbox" data-day="17" data-task="1"> Alarms on CPU/5XX; notify via SNS topic.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html" target="_blank" rel="noopener">CloudWatch</a>
+          <a class="chip" href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html" target="_blank" rel="noopener">SNS</a>
+        </div>
+        <em class="time">Afternoon (30min)</em>
+        <button class="done" data-complete="17">Mark Day 17 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-17">
-    <div class="day-head">
-      <button class="nav prev" data-go="16">← Prev</button>
-      <h2 id="title-17">Day 17 — CloudWatch Logs & Alarms</h2>
-      <button class="nav next" data-go="18">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="17" data-task="0"> LogGroups for app & system; retention policy.</label></li>
-      <li><label><input type="checkbox" data-day="17" data-task="1"> Alarms on CPU/5XX; notify via SNS topic.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html" target="_blank" rel="noopener">CloudWatch</a>
-      <a href="https://docs.aws.amazon.com/sns/latest/dg/welcome.html" target="_blank" rel="noopener">SNS</a>
-    </div>
-    <button class="complete" data-complete="17">Mark Day 17 Complete</button>
-  </section>
+      <!-- ==== DAY 18 ==== -->
+      <section class="day-card" id="day-18">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="18" data-task="0"> Lambda function, IAM role, LogGroup, API Gateway integration.</label></li>
+          <li><label><input type="checkbox" data-day="18" data-task="1"> Outputs: API URL; alias for canary (optional).</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank" rel="noopener">Lambda</a>
+          <a class="chip" href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank" rel="noopener">API Gateway</a>
+        </div>
+        <em class="time">Morning (40min)</em>
+        <button class="done" data-complete="18">Mark Day 18 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-18">
-    <div class="day-head">
-      <button class="nav prev" data-go="17">← Prev</button>
-      <h2 id="title-18">Day 18 — Lambda + API Gateway</h2>
-      <button class="nav next" data-go="19">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="18" data-task="0"> Lambda function, IAM role, LogGroup, API Gateway integration.</label></li>
-      <li><label><input type="checkbox" data-day="18" data-task="1"> Outputs: API URL; alias for canary (optional).</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/lambda/latest/dg/welcome.html" target="_blank" rel="noopener">Lambda</a>
-      <a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html" target="_blank" rel="noopener">API Gateway</a>
-    </div>
-    <button class="complete" data-complete="18">Mark Day 18 Complete</button>
-  </section>
+      <!-- ==== DAY 19 ==== -->
+      <section class="day-card" id="day-19">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="19" data-task="0"> Rule → target Lambda; SQS queue with DLQ for retries.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html" target="_blank" rel="noopener">EventBridge</a>
+          <a class="chip" href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html" target="_blank" rel="noopener">SQS</a>
+        </div>
+        <em class="time">Afternoon (30min)</em>
+        <button class="done" data-complete="19">Mark Day 19 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-19">
-    <div class="day-head">
-      <button class="nav prev" data-go="18">← Prev</button>
-      <h2 id="title-19">Day 19 — EventBridge, SQS, DLQ</h2>
-      <button class="nav next" data-go="20">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="19" data-task="0"> Rule → target Lambda; SQS queue with DLQ for retries.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html" target="_blank" rel="noopener">EventBridge</a>
-      <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html" target="_blank" rel="noopener">SQS</a>
-    </div>
-    <button class="complete" data-complete="19">Mark Day 19 Complete</button>
-  </section>
+      <!-- ==== DAY 20 ==== -->
+      <section class="day-card" id="day-20">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="20" data-task="0"> Use <code>{{resolve:secretsmanager:…}}</code> and SSM Parameter Store.</label></li>
+          <li><label><input type="checkbox" data-day="20" data-task="1"> Rotate secrets policy.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html" target="_blank" rel="noopener">Dynamic Refs</a>
+        </div>
+        <em class="time">Morning (30min)</em>
+        <button class="done" data-complete="20">Mark Day 20 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-20">
-    <div class="day-head">
-      <button class="nav prev" data-go="19">← Prev</button>
-      <h2 id="title-20">Day 20 — Secrets & Parameters (Dynamic Refs)</h2>
-      <button class="nav next" data-go="21">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="20" data-task="0"> Use <span class="kbd">{{resolve:secretsmanager:…}}</span> and SSM Parameter Store.</label></li>
-      <li><label><input type="checkbox" data-day="20" data-task="1"> Rotate secrets policy.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/dynamic-references.html" target="_blank" rel="noopener">Dynamic Refs</a>
-    </div>
-    <button class="complete" data-complete="20">Mark Day 20 Complete</button>
-  </section>
+      <!-- ==== DAY 21 ==== -->
+      <section class="day-card" id="day-21">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="21" data-task="0"> ECR repo; ECS cluster; task definition; service behind ALB.</label></li>
+          <li><label><input type="checkbox" data-day="21" data-task="1"> Auto scaling & health checks.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html" target="_blank" rel="noopener">ECS</a>
+          <a class="chip" href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html" target="_blank" rel="noopener">ECR</a>
+        </div>
+        <em class="time">Afternoon (45min)</em>
+        <button class="done" data-complete="21">Mark Day 21 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-21">
-    <div class="day-head">
-      <button class="nav prev" data-go="20">← Prev</button>
-      <h2 id="title-21">Day 21 — ECS Fargate Service</h2>
-      <button class="nav next" data-go="22">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="21" data-task="0"> ECR repo; ECS cluster; task definition; service behind ALB.</label></li>
-      <li><label><input type="checkbox" data-day="21" data-task="1"> Auto scaling & health checks.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html" target="_blank" rel="noopener">ECS</a>
-      <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/what-is-ecr.html" target="_blank" rel="noopener">ECR</a>
-    </div>
-    <button class="complete" data-complete="21">Mark Day 21 Complete</button>
-  </section>
+      <!-- ==== DAY 22 ==== -->
+      <section class="day-card" id="day-22">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="22" data-task="0"> Lifecycle policy; scan on push; restrict repo access.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/ecr-repository-policies.html" target="_blank" rel="noopener">ECR Policies</a>
+        </div>
+        <em class="time">Morning (25min)</em>
+        <button class="done" data-complete="22">Mark Day 22 Complete</button>
+      </section>
 
-  <!-- Week 4 -->
-  <section class="card day-card" id="day-22">
-    <div class="day-head">
-      <button class="nav prev" data-go="21">← Prev</button>
-      <h2 id="title-22">Day 22 — ECR Policies & Lifecycle</h2>
-      <button class="nav next" data-go="23">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="22" data-task="0"> Lifecycle policy; scan on push; restrict repo access.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/ecr-repository-policies.html" target="_blank" rel="noopener">ECR Policies</a>
-    </div>
-    <button class="complete" data-complete="22">Mark Day 22 Complete</button>
-  </section>
+      <!-- ==== DAY 23 ==== -->
+      <section class="day-card" id="day-23">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="23" data-task="0"> Break infra into nested stacks (vpc.yml, app.yml).</label></li>
+          <li><label><input type="checkbox" data-day="23" data-task="1"> Try StackSets to deploy across accounts/regions.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html" target="_blank" rel="noopener">Nested Stacks</a>
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html" target="_blank" rel="noopener">StackSets</a>
+        </div>
+        <em class="time">Afternoon (40min)</em>
+        <button class="done" data-complete="23">Mark Day 23 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-23">
-    <div class="day-head">
-      <button class="nav prev" data-go="22">← Prev</button>
-      <h2 id="title-23">Day 23 — Nested Stacks & StackSets</h2>
-      <button class="nav next" data-go="24">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="23" data-task="0"> Break infra into nested stacks (vpc.yml, app.yml).</label></li>
-      <li><label><input type="checkbox" data-day="23" data-task="1"> Try StackSets to deploy across accounts/regions.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html" target="_blank" rel="noopener">Nested Stacks</a>
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-concepts.html" target="_blank" rel="noopener">StackSets</a>
-    </div>
-    <button class="complete" data-complete="23">Mark Day 23 Complete</button>
-  </section>
+      <!-- ==== DAY 24 ==== -->
+      <section class="day-card" id="day-24">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="24" data-task="0"> Create/preview Change Sets; add <code>StackPolicy</code>.</label></li>
+          <li><label><input type="checkbox" data-day="24" data-task="1"> Use <code>DeletionPolicy</code>/<code>UpdateReplacePolicy</code>; rollback triggers.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html" target="_blank" rel="noopener">Change Sets</a>
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources-from-updates.html" target="_blank" rel="noopener">Stack Policies</a>
+        </div>
+        <em class="time">Morning (35min)</em>
+        <button class="done" data-complete="24">Mark Day 24 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-24">
-    <div class="day-head">
-      <button class="nav prev" data-go="23">← Prev</button>
-      <h2 id="title-24">Day 24 — Change Sets & Policies</h2>
-      <button class="nav next" data-go="25">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="24" data-task="0"> Create/preview Change Sets; add <span class="kbd">StackPolicy</span>.</label></li>
-      <li><label><input type="checkbox" data-day="24" data-task="1"> Use <span class="kbd">DeletionPolicy</span>/<span class="kbd">UpdateReplacePolicy</span>; rollback triggers.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-changesets.html" target="_blank" rel="noopener">Change Sets</a>
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources-from-updates.html" target="_blank" rel="noopener">Stack Policies</a>
-    </div>
-    <button class="complete" data-complete="24">Mark Day 24 Complete</button>
-  </section>
+      <!-- ==== DAY 25 ==== -->
+      <section class="day-card" id="day-25">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="25" data-task="0"> Run <code>cfn-lint</code> locally & in CI.</label></li>
+          <li><label><input type="checkbox" data-day="25" data-task="1"> Use <code>taskcat</code> to test deploy; add <code>cfn-guard</code> rules.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://github.com/aws-cloudformation/cfn-lint" target="_blank" rel="noopener">cfn-lint</a>
+          <a class="chip" href="https://github.com/aws-quickstart/taskcat" target="_blank" rel="noopener">taskcat</a>
+          <a class="chip" href="https://github.com/aws-cloudformation/cloudformation-guard" target="_blank" rel="noopener">CFN Guard</a>
+        </div>
+        <em class="time">Afternoon (40min)</em>
+        <button class="done" data-complete="25">Mark Day 25 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-25">
-    <div class="day-head">
-      <button class="nav prev" data-go="24">← Prev</button>
-      <h2 id="title-25">Day 25 — Linting & Testing (cfn-lint, taskcat, Guard)</h2>
-      <button class="nav next" data-go="26">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="25" data-task="0"> Run <span class="kbd">cfn-lint</span> locally & in CI.</label></li>
-      <li><label><input type="checkbox" data-day="25" data-task="1"> Use <span class="kbd">taskcat</span> to test deploy; add <span class="kbd">cfn-guard</span> rules.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://github.com/aws-cloudformation/cfn-lint" target="_blank" rel="noopener">cfn-lint</a>
-      <a href="https://github.com/aws-quickstart/taskcat" target="_blank" rel="noopener">taskcat</a>
-      <a href="https://github.com/aws-cloudformation/cloudformation-guard" target="_blank" rel="noopener">CFN Guard</a>
-    </div>
-    <button class="complete" data-complete="25">Mark Day 25 Complete</button>
-  </section>
+      <!-- ==== DAY 26 ==== -->
+      <section class="day-card" id="day-26">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="26" data-task="0"> Run drift detection; fix differences.</label></li>
+          <li><label><input type="checkbox" data-day="26" data-task="1"> Import existing resources into a stack (no recreate).</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/detect-drift-stack.html" target="_blank" rel="noopener">Drift Detection</a>
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html" target="_blank" rel="noopener">Resource Import</a>
+        </div>
+        <em class="time">Morning (35min)</em>
+        <button class="done" data-complete="26">Mark Day 26 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-26">
-    <div class="day-head">
-      <button class="nav prev" data-go="25">← Prev</button>
-      <h2 id="title-26">Day 26 — Drift & Resource Import</h2>
-      <button class="nav next" data-go="27">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="26" data-task="0"> Run drift detection; fix differences.</label></li>
-      <li><label><input type="checkbox" data-day="26" data-task="1"> Import existing resources into a stack (no recreate).</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/detect-drift-stack.html" target="_blank" rel="noopener">Drift Detection</a>
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-new-stack.html" target="_blank" rel="noopener">Resource Import</a>
-    </div>
-    <button class="complete" data-complete="26">Mark Day 26 Complete</button>
-  </section>
+      <!-- ==== DAY 27 ==== -->
+      <section class="day-card" id="day-27">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="27" data-task="0"> Use <code>Transform: AWS::Serverless-2016-10-31</code> with a Lambda + API.</label></li>
+          <li><label><input type="checkbox" data-day="27" data-task="1"><code>sam build</code> & <code>sam package</code> to S3; deploy.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html" target="_blank" rel="noopener">AWS SAM</a>
+        </div>
+        <em class="time">Afternoon (40min)</em>
+        <button class="done" data-complete="27">Mark Day 27 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-27">
-    <div class="day-head">
-      <button class="nav prev" data-go="26">← Prev</button>
-      <h2 id="title-27">Day 27 — SAM (Serverless)</h2>
-      <button class="nav next" data-go="28">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="27" data-task="0"> Use <span class="kbd">Transform: AWS::Serverless-2016-10-31</span> with a Lambda + API.</label></li>
-      <li><label><input type="checkbox" data-day="27" data-task="1"><span class="kbd">sam build</span> & <span class="kbd">sam package</span> to S3; deploy.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html" target="_blank" rel="noopener">AWS SAM</a>
-    </div>
-    <button class="complete" data-complete="27">Mark Day 27 Complete</button>
-  </section>
+      <!-- ==== DAY 28 ==== -->
+      <section class="day-card" id="day-28">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="28" data-task="0"> Create a simple custom resource (Lambda) for setup work.</label></li>
+          <li><label><input type="checkbox" data-day="28" data-task="1"> Review Hooks/Macros for org-wide rules.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html" target="_blank" rel="noopener">Macros</a>
+          <a class="chip" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/hooks-reference.html" target="_blank" rel="noopener">Hooks</a>
+        </div>
+        <em class="time">Morning (35min)</em>
+        <button class="done" data-complete="28">Mark Day 28 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-28">
-    <div class="day-head">
-      <button class="nav prev" data-go="27">← Prev</button>
-      <h2 id="title-28">Day 28 — Macros, Hooks & Custom Resources</h2>
-      <button class="nav next" data-go="29">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="28" data-task="0"> Create a simple custom resource (Lambda) for setup work.</label></li>
-      <li><label><input type="checkbox" data-day="28" data-task="1"> Review Hooks/Macros for org-wide rules.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html" target="_blank" rel="noopener">Macros</a>
-      <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/hooks-reference.html" target="_blank" rel="noopener">Hooks</a>
-    </div>
-    <button class="complete" data-complete="28">Mark Day 28 Complete</button>
-  </section>
+      <!-- ==== DAY 29 ==== -->
+      <section class="day-card" id="day-29">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="29" data-task="0"> Standardize tags; reuse via mappings/params; cost controls.</label></li>
+          <li><label><input type="checkbox" data-day="29" data-task="1"> Termination protection; permissions boundaries review.</label></li>
+        </ul>
+        <div class="links">
+          <a class="chip" href="https://docs.aws.amazon.com/whitepapers/latest/cf-best-practices/welcome.html" target="_blank" rel="noopener">CFN Best Practices</a>
+        </div>
+        <em class="time">Afternoon (35min)</em>
+        <button class="done" data-complete="29">Mark Day 29 Complete</button>
+      </section>
 
-  <section class="card day-card" id="day-29">
-    <div class="day-head">
-      <button class="nav prev" data-go="28">← Prev</button>
-      <h2 id="title-29">Day 29 — Cost, Security, Tagging, Reuse</h2>
-      <button class="nav next" data-go="30">Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="29" data-task="0"> Standardize tags; reuse via mappings/params; cost controls.</label></li>
-      <li><label><input type="checkbox" data-day="29" data-task="1"> Termination protection; permissions boundaries review.</label></li>
-    </ul>
-    <div class="links">
-      <a href="https://docs.aws.amazon.com/whitepapers/latest/cf-best-practices/welcome.html" target="_blank" rel="noopener">CFN Best Practices</a>
-    </div>
-    <button class="complete" data-complete="29">Mark Day 29 Complete</button>
-  </section>
+      <!-- ==== DAY 30 ==== -->
+      <section class="day-card" id="day-30">
+        <ul class="tasks">
+          <li><label><input type="checkbox" data-day="30" data-task="0"> Multi-env (VPC + ALB + ASG/ECS + RDS/DynamoDB) with params & change sets.</label></li>
+          <li><label><input type="checkbox" data-day="30" data-task="1"> Enable drift detection, alarms, guarded updates.</label></li>
+          <li><label><input type="checkbox" data-day="30" data-task="2"> Optional: integrate CI validation (see CICDMastery Day 23).</label></li>
+        </ul>
+        <em class="time">Anytime (90min)</em>
+        <button class="done" data-complete="30">Mark Day 30 Complete</button>
+      </section>
+    </section>
 
-  <section class="card day-card" id="day-30">
-    <div class="day-head">
-      <button class="nav prev" data-go="29">← Prev</button>
-      <h2 id="title-30">Day 30 — Final Project</h2>
-      <button class="nav next" data-go="31" disabled>Next →</button>
-    </div>
-    <ul class="tasks">
-      <li><label><input type="checkbox" data-day="30" data-task="0"> Multi-env (VPC + ALB + ASG/ECS + RDS/DynamoDB) with params & change sets.</label></li>
-      <li><label><input type="checkbox" data-day="30" data-task="1"> Enable drift detection, alarms, guarded updates.</label></li>
-      <li><label><input type="checkbox" data-day="30" data-task="2"> Optional: integrate CI validation (see CICDMastery Day 23).</label></li>
-    </ul>
-    <button class="complete" data-complete="30">Mark Day 30 Complete</button>
-  </section>
-
-  <section class="footer">© CloudFormationMastery — Install for best experience (Add to Home Screen). Works offline.</section>
-</main>
+    <section class="footer">© CloudFormationMastery — Add to Home Screen for the best experience. Works offline.</section>
+  </main>
 
 <script>
+/* ===== FULLY STATIC STATE ===== */
 const TOTAL = 30;
-const stateKey = 'cfn_state_v1';
-let state = JSON.parse(localStorage.getItem(stateKey) || '{"completed":{}, "tasks":{}, "streak":0, "lastOpen":null, "notif":false, "current":1}');
+const KEY='cfn_static_v1';
+let S = JSON.parse(localStorage.getItem(KEY) || '{"completed":{}, "checks":{}, "streak":0, "lastOpen":null, "notif":false, "current":1}');
 
-// Jump links
-const jump = document.getElementById('jump');
-jump.innerHTML = Array.from({length: TOTAL}, (_, i) => `<a href="#day-${i+1}" data-go="${i+1}">Day ${i+1}</a>`).join('');
-jump.querySelectorAll('a').forEach(a => a.addEventListener('click', (e) => {
-  e.preventDefault();
-  const go = parseInt(a.dataset.go, 10);
-  showDay(go);
-  document.getElementById(`day-${go}`).scrollIntoView({behavior:'smooth', block:'start'});
-}));
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
 
-// Progress ring
-function updateProgress() {
-  const completedCount = Object.keys(state.completed).length;
-  const pct = Math.round((completedCount / TOTAL) * 100);
-  document.getElementById('completedDays').textContent = completedCount;
-  document.getElementById('progressPct').textContent = pct + '%';
-  const C = 2 * Math.PI * 54;
-  const off = C * (1 - pct/100);
-  const ring = document.getElementById('ring');
+/* Quick jump pills */
+const jump = $('#jump');
+if (jump) jump.innerHTML = Array.from({length: TOTAL}, (_, i) => `<a href="#" data-go="${i+1}">Day ${i+1}</a>`).join('');
+jump?.addEventListener('click', (e)=>{
+  const a=e.target.closest('a'); if(!a) return;
+  e.preventDefault(); showDay(parseInt(a.dataset.go,10));
+  document.querySelector('.dayhead')?.scrollIntoView({behavior:'smooth',block:'start'});
+});
+
+/* Progress ring */
+function updateProgress(){
+  const done = Object.keys(S.completed).length;
+  $('#doneCount').textContent = done;
+  const pct = Math.round(100*done/TOTAL);
+  $('#pct').textContent = pct + '%';
+  const C = 2*Math.PI*52;
+  const off = C*(1-pct/100);
+  const ring = $('#ring');
   ring.setAttribute('stroke-dasharray', C.toFixed(3));
   ring.setAttribute('stroke-dashoffset', off.toFixed(3));
 }
 
-// Show day
-function showDay(n) {
-  n = Math.min(Math.max(1, n), TOTAL);
-  document.querySelectorAll('.day-card').forEach(el => el.classList.remove('active'));
-  const el = document.getElementById('day-' + n);
-  if (el) el.classList.add('active');
-  state.current = n;
-  document.getElementById('currentDay').textContent = n;
-  save();
-}
-
-// Save
-function save() {
-  localStorage.setItem(stateKey, JSON.stringify(state));
-}
-
-// Streak
-function updateStreak() {
+/* Streak */
+function updateStreak(){
   const today = new Date().toISOString().slice(0,10);
-  if (state.lastOpen !== today) {
-    const yest = new Date(); yest.setDate(yest.getDate()-1);
-    const yestStr = yest.toISOString().slice(0,10);
-    if (state.lastOpen === yestStr) state.streak += 1;
-    else state.streak = 1;
-    state.lastOpen = today;
+  if (S.lastOpen !== today) {
+    const y = new Date(); y.setDate(y.getDate()-1);
+    const ys = y.toISOString().slice(0,10);
+    S.streak = (S.lastOpen === ys) ? (S.streak||0)+1 : 1;
+    S.lastOpen = today;
     save();
   }
-  document.getElementById('streak').textContent = state.streak || 0;
+  $('#streak').textContent = S.streak || 0;
 }
 
-// Task checkboxes persist
-document.querySelectorAll('.tasks input[type="checkbox"]').forEach(cb => {
-  const d = cb.dataset.day; const t = cb.dataset.task;
-  const checked = state.tasks[d]?.includes(parseInt(t));
+/* Save */
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
+
+/* Title map for the static sections */
+const TITLES = [
+  "CloudFormation Fundamentals",
+  "Template Anatomy & YAML",
+  "Parameters & Constraints",
+  "Mappings & Conditions",
+  "Intrinsic Functions",
+  "Outputs & Cross-Stack Exports",
+  "Resource Lifecycles & DependsOn",
+  "VPC Baseline",
+  "Security Groups & NACLs",
+  "EC2 + IAM + UserData",
+  "ALB & Target Groups",
+  "Auto Scaling Group",
+  "RDS (or Aurora) Subnet Group",
+  "S3 Buckets & Policies",
+  "CloudFront & Route 53",
+  "IAM Roles & Policies",
+  "CloudWatch Logs & Alarms",
+  "Lambda + API Gateway",
+  "EventBridge, SQS, DLQ",
+  "Secrets & Parameters (Dynamic Refs)",
+  "ECS Fargate Service",
+  "ECR Policies & Lifecycle",
+  "Nested Stacks & StackSets",
+  "Change Sets & Policies",
+  "Linting & Testing (cfn-lint, taskcat, Guard)",
+  "Drift & Resource Import",
+  "SAM (Serverless)",
+  "Macros, Hooks & Custom Resources",
+  "Cost, Security, Tagging, Reuse",
+  "Final Project"
+];
+
+/* Show Day (toggle the hard-coded sections) */
+function showDay(n){
+  n = Math.max(1, Math.min(TOTAL, n));
+  $$('.day-card').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('day-'+n);
+  el?.classList.add('active');
+  S.current = n; save();
+  $('#currentTitle').textContent = `Day ${n}: ${TITLES[n-1]}`;
+  $('#prev').disabled = (n===1);
+  $('#next').disabled = (n===TOTAL);
+}
+
+/* Restore checkboxes */
+$$('.tasks input[type="checkbox"]').forEach(cb=>{
+  const d = cb.dataset.day; const t = parseInt(cb.dataset.task,10);
+  const checked = S.checks?.[d]?.includes(t);
   cb.checked = !!checked;
-  cb.addEventListener('change', () => {
-    state.tasks[d] = state.tasks[d] || [];
-    const idx = state.tasks[d].indexOf(parseInt(t));
-    if (cb.checked) { if (idx === -1) state.tasks[d].push(parseInt(t)); }
-    else { if (idx !== -1) state.tasks[d].splice(idx,1); }
+  cb.addEventListener('change', ()=>{
+    S.checks = S.checks || {};
+    S.checks[d] = S.checks[d] || [];
+    const arr = S.checks[d]; const idx = arr.indexOf(t);
+    if (cb.checked){ if (idx === -1) arr.push(t); }
+    else { if (idx !== -1) arr.splice(idx,1); }
     save();
   });
 });
 
-// Complete buttons
-document.querySelectorAll('.complete').forEach(btn => {
-  btn.addEventListener('click', () => {
+/* Complete buttons */
+$$('.done').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
     const d = btn.dataset.complete;
-    state.completed[d] = true;
-    save();
-    updateProgress();
-    if (parseInt(d) < TOTAL) showDay(parseInt(d)+1);
+    S.completed[d] = true; save(); updateProgress();
+    const next = Math.min(TOTAL, parseInt(d)+1);
+    showDay(next);
   });
 });
 
-// Prev/Next nav
-document.querySelectorAll('.nav').forEach(b => b.addEventListener('click', () => {
-  const go = parseInt(b.dataset.go);
-  if (!isNaN(go)) showDay(go);
-}));
+/* Prev/Next */
+$('#prev').addEventListener('click', ()=> showDay((S.current||1)-1));
+$('#next').addEventListener('click', ()=> showDay((S.current||1)+1));
 
-// Notifications (basic)
-const notifStatus = document.getElementById('notifStatus');
-function updateNotifUI(){ notifStatus.textContent = state.notif ? 'on' : 'off'; }
-updateNotifUI();
-document.getElementById('enableAlerts').addEventListener('click', async () => {
-  if (!('Notification' in window)) return alert('Notifications not supported.');
+/* Notifications banner */
+function updateNotice(){
+  const el = $('#notice'); const txt = $('#noticeText');
+  if (S.notif){ el.classList.add('ok'); txt.textContent='Daily notifications enabled'; }
+  else { el.classList.remove('ok'); txt.textContent='Daily notifications disabled'; }
+}
+$('#enableAlerts').addEventListener('click', async ()=>{
+  if (!('Notification' in window)) { alert('Notifications not supported'); return; }
   const perm = await Notification.requestPermission();
-  if (perm === 'granted') {
-    state.notif = true; save(); updateNotifUI();
-    if (navigator.serviceWorker) {
+  if (perm === 'granted'){ S.notif = true; save(); updateNotice();
+    if (navigator.serviceWorker){
       const reg = await navigator.serviceWorker.getRegistration();
-      reg?.showNotification('CloudFormationMastery: Daily reminder set!', { body: "Come back for today's CFN challenge." });
+      reg?.showNotification('CloudFormationMastery', {body:'Daily notifications enabled ✅'});
     }
   }
 });
-
-// Reset
-document.getElementById('resetBtn').addEventListener('click', () => {
-  if (!confirm('Reset progress and streak?')) return;
-  state = {"completed":{}, "tasks":{}, "streak":0, "lastOpen":null, "notif":false, "current":1};
-  localStorage.setItem(stateKey, JSON.stringify(state));
-  document.querySelectorAll('.tasks input[type="checkbox"]').forEach(cb => cb.checked = false);
-  updateProgress(); updateNotifUI(); updateStreak(); showDay(1);
+$('#resetBtn').addEventListener('click', ()=>{
+  if (!confirm('Reset progress & streak?')) return;
+  S = {"completed":{}, "checks":{}, "streak":0, "lastOpen":null, "notif":false, "current":1};
+  save();
+  $$('.tasks input[type="checkbox"]').forEach(cb=> cb.checked=false);
+  updateProgress(); updateStreak(); updateNotice(); showDay(1);
 });
 
-// PWA SW
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(console.error);
+/* PWA */
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');
 
-// Init
-updateProgress(); updateStreak(); showDay(state.current || 1);
+/* INIT */
+updateProgress(); updateStreak(); updateNotice(); showDay(S.current||1);
 </script>
 </body>
 </html>
